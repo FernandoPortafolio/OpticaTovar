@@ -1,0 +1,713 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;700&family=PT+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;700;900&display=swap');
+/* font-family: 'Lato', sans-serif; */
+/* font-family: 'Open Sans', sans-serif; */
+/* font-family: 'PT Sans', sans-serif; */
+/* font-family: 'Raleway', sans-serif; */
+
+/* ====================== GLOBALES =============== */
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #b4d137;
+  --secondary-color-dark: #a1bb2d;
+  --third-color: #007bff;
+  --third-color-dark: #0271e7;
+  --dark-color: #5c6268;
+  --primary-font: 'Open Sans', sans-serif;
+  --secondary-font: 'Lato', sans-serif;
+  --third-font: 'Raleway', sans-serif;
+}
+body {
+  font-family: var(--primary-font);
+  background-color: white;
+}
+img {
+  max-width: 100%;
+}
+
+h1,
+.h1 {
+  font-family: var(--secondary-font);
+}
+
+h2,
+.h2 {
+  font-family: var(--third-font);
+}
+
+h3,
+.h3 {
+  font-family: var(--third-font);
+}
+/* =============================================== */
+
+/* ====================== BOTONES =============== */
+.btn {
+  transition: all 0.3s;
+}
+.btn-outline-white {
+  color: #5c6268;
+  border-color: #5c6268;
+}
+.btn-outline-white:hover {
+  color: #313131;
+  background-color: var(--secondary-color);
+  border-color: #000;
+}
+.btn-primary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: rgb(54, 51, 51);
+}
+.btn-primary:hover {
+  background-color: var(--secondary-color-dark);
+  border-color: var(--secondary-color);
+  color: rgb(54, 51, 51);
+}
+/* =============================================== */
+
+/* ====================== NAVEGACION =============== */
+.bg-primary {
+  background-color: var(--third-color);
+}
+.dropdown-menu {
+  right: 0;
+  left: unset;
+}
+/* =============================================== */
+
+/* ====================== INDEX =============== */
+.head {
+  height: 80vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.index .head {
+  background-image: url(../assets/img/banner.jpg);
+}
+
+/* Contenido del banner */
+.head .head-content {
+  color: whitesmoke;
+  text-align: center;
+  font-size: 1.1rem;
+}
+#typed {
+  font-size: 2rem;
+  text-shadow: 0 0 30px black;
+  margin-bottom: 2rem;
+  letter-spacing: 0.5rem;
+  font-family: var(--secondary-font);
+}
+
+.typed-cursor {
+  font-size: 3rem;
+}
+@media (min-width: 768px) {
+  .head #typed {
+    font-size: 4rem;
+  }
+}
+.head .btn {
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Barra de Navegacion */
+.dropdown-menu.transparent {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+}
+
+.dropdown-item.transparent {
+  color: var(--primary-color);
+}
+
+.dropdown-item.transparent:hover,
+.dropdown-item.transparent:focus {
+  background-color: var(--secondary-color);
+  color: var(--dark-color);
+}
+
+/* Conocenos */
+.card-deck .card-img-top {
+  max-width: 5rem;
+}
+
+.card-deck .imagen {
+  min-height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* mapa */
+.mapa {
+  height: 30rem;
+  background-color: rgba(180, 180, 248, 0.3);
+  margin-bottom: 5rem;
+}
+
+/* Contactanos */
+.contactanos .btn {
+  padding: 1rem 2rem;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+  border-radius: 5rem;
+  border-width: 0.2rem;
+}
+
+/* Testimoniales */
+.testimoniales {
+  padding-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .testimoniales {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 2rem;
+  }
+}
+.testimonial {
+  margin: 0 0 2rem 0;
+  background-color: white;
+  border: 3px solid #e1e1e1;
+  position: relative;
+  padding: 1rem;
+}
+.testimonial p {
+  line-height: 2;
+  text-align: justify;
+  font-family: var(--primary-font);
+  padding: 0 1rem 0 4rem;
+  color: #555;
+}
+.testimonial p::before {
+  font-family: 'Fontawesome';
+  content: '\201c';
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  font-size: 8rem;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  color: var(--secondary-color);
+}
+.testimonial footer {
+  padding: 0.5rem 0 0 0;
+  display: flex;
+  align-items: center;
+}
+.testimonial img {
+  width: 10%;
+  border-radius: 50%;
+  margin-left: 1.5rem;
+  margin-right: 0.6rem;
+}
+@media (min-width: 768px) {
+  .testimonial img {
+    width: 20%;
+  }
+}
+.testimonial cite {
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--third-color);
+  font-weight: bold;
+  font-size: 1rem;
+}
+.testimonial cite span {
+  color: black;
+  font-weight: 400;
+  display: block;
+  text-transform: none;
+  line-height: 2;
+}
+
+/* Footer */
+.site-footer {
+  min-height: 250px;
+  background-color: var(--third-color);
+  font-size: 0.8rem;
+}
+.footer-section {
+  text-align: center;
+  margin: auto;
+  color: var(--primary-color);
+}
+.footer-section p {
+  margin: 0;
+}
+.footer-section a {
+  text-decoration: none;
+  color: white;
+}
+.copyrigth {
+  padding: 0.6rem 0;
+  text-align: center;
+  color: white;
+  background-color: var(--third-color-dark);
+}
+
+#facebook {
+  width: 84px;
+  height: 84px;
+  background: url('../assets/img/sprite-social.jpg') 0px 0px;
+}
+
+#facebook:hover {
+  width: 84px;
+  height: 84px;
+  background: url('../assets/img/sprite-social.jpg') 0px -84px;
+}
+
+#twitter {
+  width: 84px;
+  height: 84px;
+  background: url('../assets/img/sprite-social.jpg') -670px 0px;
+}
+#twitter:hover {
+  width: 84px;
+  height: 84px;
+  background: url('../assets/img/sprite-social.jpg') -670px -84px;
+}
+
+#youtube {
+  width: 84px;
+  height: 84px;
+  background: url('../assets/img/sprite-social.jpg') -840px 0px;
+}
+#youtube:hover {
+  width: 84px;
+  height: 84px;
+  background: url('../assets/img/sprite-social.jpg') -840px -84px;
+}
+
+/* =============================================== */
+
+/* ====================== PADECIMIENTOS =============== */
+.padecimientos .head {
+  background-image: url(../assets/img/padecimientos-banner.jpg);
+  background-position: top;
+}
+.padecimiento h3 {
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: var(--third-color-dark);
+  color: white;
+  text-transform: uppercase;
+  margin-top: 2rem;
+}
+.padecimiento p {
+  font-size: 0.9rem;
+}
+
+.padecimiento:last-of-type {
+  margin-bottom: 2rem;
+}
+
+/* =============================================== */
+
+/* ====================== FORMA CARA =============== */
+.forma-cara .head {
+  background-image: url(../assets/img/forma-cara.jpg);
+}
+.forma-cara-intro h2 {
+  text-transform: uppercase;
+  margin: 0;
+}
+.forma-cara h2 span {
+  display: block;
+  font-size: 1.7rem;
+}
+.forma-cara .subtitulo {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.indicacion {
+  padding: 1.8rem 0;
+  color: white;
+  background-color: var(--third-color-dark);
+  text-align: center;
+  margin: 3rem 0;
+}
+.rostro-medida {
+  text-align: center;
+}
+.rostro-medida img,
+.seccion-forma-cara img {
+  border-radius: 50%;
+  max-width: 50%;
+}
+.rostro-medida .numero {
+  margin: 1rem 0 0 0;
+  font-size: 1.7rem;
+}
+.rostro-medida .description {
+  font-size: 0.9rem;
+}
+.seccion-forma-cara {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 3rem;
+}
+.recomendaciones {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.recomendacion {
+  margin-top: 1rem;
+}
+.recomendacion p {
+  color: #5c6268 !important;
+}
+.recomendacion .nombre {
+  font-size: 0.9rem;
+  height: 5rem;
+}
+.recomendacion img {
+  max-height: 10rem;
+}
+/* =============================================== */
+
+/* ====================== CONTACTENOS =============== */
+.contacto .head {
+  background-image: url(../assets/img/contacto-banner.jpg);
+}
+.fachada {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.icono i {
+  padding: 2rem;
+  margin-bottom: 0.8rem;
+  border-radius: 1.5rem;
+  color: var(--secondary-color-dark);
+  font-size: 1.5rem;
+  -webkit-box-shadow: 4px 2px 8px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 4px 2px 8px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 4px 2px 8px -4px rgba(0, 0, 0, 0.75);
+}
+.datos {
+  margin-bottom: 1rem;
+}
+.datos p:not([class='h6 font-weight-bold']) {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.datos:hover {
+  transform: scale(1.1);
+  transition: all 0.5s ease;
+}
+.datos:hover i {
+  -webkit-box-shadow: 4px 2px 8px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 4px 2px 8px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 4px 2px 8px -1px rgba(0, 0, 0, 0.75);
+  transition: all 0.5s ease;
+}
+.formulario-contacto {
+  margin: 3rem 1rem;
+}
+@media (min-width: 768px) {
+  .formulario-contacto {
+    max-width: 50%;
+    margin: 3rem auto;
+  }
+}
+.formulario-contacto label {
+  font-weight: bold;
+}
+.formulario-contacto input {
+  height: 3rem;
+}
+/* =============================================== */
+
+/* ====================== FAQS =============== */
+.faqs .head {
+  background-image: url(../assets/img/faqs.jpg);
+}
+.pregunta {
+  background-color: var(--third-color-dark);
+  color: white;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+.pregunta:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.pregunta i {
+  font-size: 1.3rem;
+}
+.respuesta {
+  background-color: #e1e1e183;
+  padding-top: 1rem;
+  display: none;
+  font-size: 0.9rem;
+}
+p.respuesta {
+  padding: 0.5rem;
+}
+/* =============================================== */
+
+/* ====================== TIENDA =============== */
+.tienda .head {
+  background-image: url(../assets/img/tienda-banner.jpg);
+}
+.producto {
+  margin: 3rem 0;
+  text-align: center;
+}
+.producto .marca {
+  background-color: var(--third-color-dark);
+  padding: 0.5rem;
+  text-transform: uppercase;
+  color: white;
+  margin: 0;
+}
+.producto i {
+  margin-right: 0.5rem;
+}
+.producto .btn {
+  margin-top: 0.8rem;
+}
+.contenido-producto {
+  padding: 1rem;
+}
+.contenido-producto .description {
+  text-align: right;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  min-height: 4rem;
+}
+.contenido-producto .precio {
+  margin: 0;
+  font-size: 1rem;
+  text-align: right;
+  color: #313131;
+  font-family: var(--third-font);
+}
+.division {
+  display: flex;
+  justify-content: flex-end;
+}
+.division span {
+  height: 1px;
+  width: 1rem;
+  background-color: #000;
+  margin: 0 0.4rem 0.6rem 0;
+}
+.category-active {
+  color: var(--secondary-color-dark);
+}
+
+/* Aside */
+.titulo-filtro {
+  cursor: pointer;
+}
+.categorias a {
+  text-decoration: none;
+}
+.categorias {
+  display: none;
+}
+.orden label {
+  width: 8rem;
+}
+@media (min-width: 768px) {
+  .orden {
+    justify-content: flex-end;
+  }
+  .orden select {
+    max-width: 15rem;
+  }
+}
+/* =============================================== */
+
+/* ====================== DETALLE PRODUCTO =============== */
+.detalle-producto .head {
+  background-color: var(--third-color);
+  height: 160px;
+}
+.detalle {
+  margin: 4rem auto;
+}
+.detalle img {
+  border: 1px solid #e1e1e1;
+}
+.detalles .marca {
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 1.4rem;
+  color: #313131;
+  font-family: var(--third-font);
+  font-weight: 300;
+}
+.detalles .sku {
+  font-size: 0.8rem;
+  color: #919191;
+}
+.detalles .precio {
+  font-family: var(--third-font);
+  font-size: 1.4rem;
+  font-weight: 300;
+}
+.detalles .cantidad {
+  font-size: 0.8rem;
+  margin: 0;
+}
+.detalles input {
+  margin-bottom: 1rem;
+  max-width: 5rem;
+}
+.detalles .btn {
+  padding: 0.8rem 4rem;
+  color: white;
+}
+.detalle .info {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin-top: 3rem;
+  background-color: #f0f0f0;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+@media (min-width: 768px) {
+  .detalle .info {
+    grid-template-columns: repeat(2, 15rem);
+  }
+}
+
+/* =============================================== */
+
+/* ====================== PAGAR =============== */
+.pagar .head {
+  background-color: var(--third-color);
+  height: 160px;
+}
+/* =============================================== */
+
+/* ====================== ASIDE DE CARRITO =============== */
+
+/* Wrapper */
+#wrapper {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: -23rem;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+}
+
+#sidebar-wrapper .list-group {
+  width: 20rem;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+#wrapper.untoggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: -24rem;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.untoggled #sidebar-wrapper {
+    margin-left: 0rem;
+  }
+}
+
+/* Personalizar el wrapper */
+.sidebar-heading {
+  padding: 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #007bff;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+}
+.sidebar-heading i {
+  margin-right: 1rem;
+}
+.sidebar-heading:hover i {
+  transform: translateX(-1rem);
+  transition: all 0.5s ease-in-out;
+}
+
+.carrito {
+  display: flex;
+  flex-direction: column;
+  /* Z-index mayor al z-index de la navbar de bootstrap para que se posicione encima de ella */
+  z-index: 1031;
+  position: fixed;
+  max-height: 100%;
+}
+.carrito ::-webkit-scrollbar {
+  display: none;
+}
+
+.contenido-carrito {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: scroll;
+}
+.carrito footer {
+  padding: 1rem 2rem;
+}
+.carrito footer p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+.carrito footer .precio {
+  font-family: var(--third-font);
+  /* font-weight: bold; */
+  margin-top: 0.8rem;
+}
+
+.carrito .producto .cantidad {
+  text-transform: uppercase;
+  color: #919191;
+  text-align: left;
+  margin: 0;
+}
+
+.carrito .producto .precio {
+  font-family: 'Raleway', sans-serif;
+  text-align: left;
+  font-weight: bold;
+}
+/* =============================================== */
+
+/* ====================== UTILIDADES =============== */
+.separador::after {
+  content: '';
+  margin: 0 auto;
+  background-image: url(../assets/img/separador.png);
+  height: 1.5rem;
+  width: 6rem;
+  display: block;
+}
+/* =============================================== */

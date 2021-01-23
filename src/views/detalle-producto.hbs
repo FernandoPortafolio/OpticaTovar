@@ -1,0 +1,55 @@
+<!-- HEADER -->
+<header class="head container-fluid">
+  <div class="head-content d-flex justify-content-center align-items-center h-100">
+    <h1 class="h2 separador">Detalle del Producto</h1>
+  </div>
+</header>
+<!-- FIN HEADER -->
+
+<main class="container">
+
+  <div class="detalle">
+    <div class="row">
+
+      <div class="col-md-7">
+        <img src="img/productos/{{product.foto}}" alt="Imagen del producto" width="550">
+      </div>
+
+      <div class="col-md-5 detalles">
+        <h2 class="marca">{{product.marca}}</h2>
+        <p class="sku">SKU: {{product.sku}}</p>
+        <p class="precio" id="lblPrecio">${{product.precio}}</p>
+        <p class="text-muted small">Solo nos quedan {{product.stock}} unidades</p>
+        <p class="cantidad">Cantidad</p>
+        <input type="number" id="quantity" class="form-control" min="1" value="1">
+        <a href="#" class="btn btn-primary btn-add-many">Agregar al carrito</a>
+
+        <input type="hidden" id="precio" value="{{product.precio}}">
+        <input type="hidden" id="id_producto" value="{{product.id_producto}}">
+      </div>
+
+    </div>
+
+    <div class="info">
+      <p>Color</p>
+      <p>{{product.color}}</p>
+
+      <p>Talla</p>
+      <p>{{product.talla}}</p>
+
+      <p>Longitud de Varilla</p>
+      <p>{{product.longitud_varilla}}</p>
+
+      <p>Ancho de puente</p>
+      <p>{{product.ancho_puente}}</p>
+
+      <p>Ancho total</p>
+      <p>{{product.ancho_total}}</p>
+
+      <p>Tipo de Armazon</p>
+      <p>{{product.tipo_armazon}}</p>
+    </div>
+
+  </div>
+
+</main>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Optica Tovar | Los mejores precios | Lentes oftálmicos">
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="plugins/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="plugins/bootstrap/bootstrap.css.map">
+
+    <!-- Leaflet Mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/all.min.css">
+
+    <!-- Preloader -->
+    <link rel="stylesheet" href="css/preloader.css">
+
+    <!-- Mia -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Scroll Reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <title>Optica Tovar | Lic. Maricela Tovar Aboytes</title>
+  </head>
+
+  <body class="{{page}}">
+    <div class="d-flex" id="wrapper">
+
+      <!-- Sidebar -->
+      {{> carrito}}
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <!-- Page Loader -->
+        <div id="page-loader"><span class="preloader-interior"></span></div>
+
+        <!-- Barra de navegacion -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+          <a class="navbar-brand" href="index"><img src="assets/img/logo-ligth.png" alt="" width="70"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link {{isActive page 'index'}}" href="/">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{isActive page 'tienda'}}" href="/tienda">Tienda</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{isActive page 'contacto'}}" href="/contacto">Contacto</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link {{isActive page 'padecimientos'}} {{isActive page 'faqs'}} {{isActive page 'forma-cara'}}" id="navbarDropdown" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Ayuda
+                </a>
+                <div class="dropdown-menu transparent" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item transparent" href="padecimientos">Padecimientos</a>
+                  <a class="dropdown-item transparent" href="forma-cara">Forma de Cara</a>
+                  <a class="dropdown-item transparent" href="faqs">FAQ's</a>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link toggler" href="contacto"><i class="fas fa-cart-plus mr-1">(<span
+                      id="item-in-cart"></span>)</i></a>
+              </li>
+
+            </ul>
+          </div>
+        </nav>
+
+        {{{body}}}
+
+        <!-- FOOTER -->
+        <footer class="site-footer container-fluid d-flex flex-column">
+          <div class="row flex-grow-1">
+            <div class="col-4 footer-section">
+              <p class="font-weight-bold"> Optica Tovar. Salud Visual</p>
+            </div>
+
+            <div class="col-4 footer-section">
+              <p class="font-weight-bold">Atencion a clientes</p>
+              <p class="font-weight-bold">Tel. 4111601866</p>
+              <p>Lunes a Viernes 10:30-15:00 - 17:00-20:00</p>
+              <p>Cortazar, Gto. México</p>
+            </div>
+
+            <div class="col-4 footer-section">
+              <a href="#"> Aviso de Privacidad</a> | <a href="#">Políticas de uso</a>
+            </div>
+          </div>
+
+          <div class="social-icons text-center">
+            <img id="facebook" src="assets/img/img_trans.gif" alt="facebook">
+            <img id="twitter" src="assets/img/img_trans.gif" alt="twitter">
+            <img id="youtube" src="assets/img/img_trans.gif" alt="youtube">
+          </div>
+
+          <div class="row">
+            <div class="col-12 p-0">
+              <p class="copyrigth m-0">Todos los Derechos Reservados <span>Fernando Acosta</span> 2020 &copy;</p>
+            </div>
+          </div>
+
+        </footer>
+        <!-- FIN FOOTER -->
+
+      </div>
+      <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    <!-- Typed -->
+    <script src="plugins/typed/typed.js"></script>
+
+    <!--Leaflet mapas-->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/149ef0981c.js" crossorigin="anonymous"></script>
+
+    <!-- Seet Alert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- PAYPAL -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXli0AO4oWuQmq9cTAsOyXlyG0S1PQoNJqkGZbvR7LP64pOq96oxgyXsQuv7kSUzn-KaygQZ4-w13klF&currency=MXN">
+    </script>
+
+    <!-- Main -->
+    <script src="js/main.js"></script>
+    <script src="js/carrito.js"></script>
+    <script src="js/tienda.js"></script>
+    <script src="js/pagar.js"></script>
+
+  </body>
+
+</html>
