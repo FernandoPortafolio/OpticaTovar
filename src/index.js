@@ -1,14 +1,15 @@
-const express = require('express');
-const handlerbars = require('express-handlebars');
-const path = require('path');
-const cors = require('cors');
-const morgan = require('morgan');
-const settings = require('./config/settings');
+const express = require('express')
+const handlerbars = require('express-handlebars')
+const path = require('path')
+const settings = require('./config/settings')
+const flash = require('connect-flash')
+const session = require('express-session')
+const passport = require('passport')
 
-const app = express();
+const app = express()
 
 //express handlebars view engine
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'))
 app.engine(
   '.hbs',
   handlerbars({
@@ -18,22 +19,30 @@ app.engine(
     helpers: require('./helpers/helpers'),
     defaultLayout: 'main',
   })
-);
-app.set('view engine', 'hbs');
+)
+app.set('view engine', 'hbs')
 
 //middlewares
-// app.use(morgan('dev'));
-app.use(cors());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(
+  session({
+    secret: settings.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+app.use(flash())
+app.use(passport.initialize())
+app.use(passport.session())
 
 //static files
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../public')))
 
 //definig routes
-app.use(require('./routes/index.routes'));
+app.use(require('./routes/index.router'))
 
 //init server
 app.listen(settings.PORT, () =>
   console.log('Server listen on port ' + settings.PORT)
-);
+)
