@@ -1,6 +1,16 @@
 /*
 En este archivo se hacen todas las peticiones AJAX para la pagina de la tienda
 */
+class Tienda {
+  async saveProducts() {
+    if (!window.sessionStorage.getItem('products')) {
+      let response = await fetch('/api/products')
+      let products = await response.json()
+      window.sessionStorage.setItem('products', JSON.stringify(products))
+    }
+  }
+}
+
 class TiendaUI {
   constructor() {
     this.formatter = new Intl.NumberFormat('en-US', {
@@ -44,9 +54,6 @@ class TiendaUI {
           </div>`
       $('.productos').append(html)
     })
-
-    //add prodcuts to sessionStorage
-    window.sessionStorage.setItem('products', JSON.stringify(data.items))
 
     $('.btn-add').click(async function (e) {
       e.preventDefault()
@@ -103,7 +110,7 @@ class TiendaUI {
   }
 
   getProductUrl() {
-    return `http://localhost:3000/api/products/pagination?page=${this.currentPage}&filter=${this.filter}&orderBy=${this.orderBy}`
+    return `/api/products/pagination?page=${this.currentPage}&filter=${this.filter}&orderBy=${this.orderBy}`
   }
 }
 
@@ -121,7 +128,9 @@ class DetalleProductoUI {
   }
 }
 
-let tiendaUI = new TiendaUI()
+const tiendaUI = new TiendaUI()
+const tienda = new Tienda()
+tienda.saveProducts()
 tiendaUI.updateProducts()
 
 //==========================================================
