@@ -2,7 +2,7 @@ const { connect } = require('../config/database')
 
 class Product {
   async fetchAll() {
-    const conn = connect()
+    const conn = await connect()
     const sql = `
     SELECT p.*, pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  m.marca, c.categoria, f.forma, ta.tipo_armazon, COALESCE(pd.foto, 'no-foto.jpg') as foto  
     from producto p
@@ -14,11 +14,11 @@ class Product {
     `
     const products = await conn.query(sql)
     conn.end()
-    return products[0]
+    return products
   }
 
   async findOneByID(id_producto) {
-    const conn = connect()
+    const conn = await connect()
     const sql = `
     SELECT p.*, 
     pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  
@@ -33,20 +33,20 @@ class Product {
     WHERE p.id_producto = ?
     `
     const product = await conn.query(sql, [id_producto])
-    return product[0]
+    conn.end()
+    return product
   }
 
   async getStock(id_producto) {
-    const conn = connect()
-    const sql = `SELECT stock from inventario where id_producto = ${id_producto}`
-    let stock = await conn.query(sql)
-    stock = stock[0][0].stock
+    const conn = await connect()
+    const sql = `SELECT stock from inventario where id_producto = ?`
+    let stock = await conn.query(sql, [id_producto])
     conn.end()
-    return stock
+    return stock[0]['stock']
   }
 
   async showPaginate(p_page, p_orderBy, p_filter) {
-    const conn = connect()
+    const conn = await connect()
 
     //datos de las paginas
     const pageSize = 9
@@ -89,7 +89,7 @@ class Product {
       start: start + 1,
       end: start + pageSize,
       pageSize,
-      items: items[0],
+      items,
     }
   }
 
@@ -133,10 +133,10 @@ class Product {
 
     sql +=
       " and c.categoria not in ('Accesorios', 'Lentes de Seguridad') ORDER BY rand() LIMIT 4"
-    const conn = connect()
+    const conn = await connect()
     const products = await conn.query(sql)
     conn.end()
-    return products[0]
+    return products
   }
 }
 

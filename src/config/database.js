@@ -1,16 +1,16 @@
-const { DB } = require('../config/settings');
-const { createPool } = require('mysql2/promise');
+const { DB } = require('../config/settings')
+const mysql = require('promise-mysql')
 
-function connect() {
-  const connection = createPool({
+async function connect() {
+  const connection = await mysql.createConnection({
     host: 'localhost',
     user: DB.USER,
     password: DB.PASSWORD,
     database: 'optica',
     connectionLimit: 10,
     port: '3306',
-  });
-  return connection;
+  })
+  return connection
 }
 
-module.exports = { connect };
+module.exports = { connect }
