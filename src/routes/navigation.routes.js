@@ -48,4 +48,10 @@ router.get('/detalle-producto', async (req, res) => {
   });
 });
 
+router.get('/pagar', (req, res) =>
+  res.render('pagar', {
+    page: 'pagar',
+  })
+);
+
 module.exports = router;
