@@ -3,6 +3,7 @@ const router = Router()
 
 //importing all routes
 router.use(require('./navigation.routes'))
+router.use('/admin', require('./admin.routes'))
 router.use('/api/products', require('./products.routes'))
 router.use((req, res, next) => {
   res.render('404', {
