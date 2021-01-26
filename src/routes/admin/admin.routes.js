@@ -3,7 +3,7 @@ const passport = require('passport')
 const {
   isAuthenticated,
   skipLogin,
-} = require('../middlewares/passport-local-auth')
+} = require('../../middlewares/passport-local-auth')
 
 const router = Router()
 

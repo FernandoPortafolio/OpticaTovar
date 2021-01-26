@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const { connect } = require('../config/database')
-const Product = require('../models/product.model')
+const { connect } = require('../../config/database')
+const Product = require('../../models/product.model')
 
 const router = Router()
 

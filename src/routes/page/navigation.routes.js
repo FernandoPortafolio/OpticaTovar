@@ -1,29 +1,29 @@
 const { Router } = require('express')
-const Category = require('../models/category.model')
-const Product = require('../models/product.model')
+const Category = require('../../models/category.model')
+const Product = require('../../models/product.model')
 
 const router = Router()
 
 router.get('/', (req, res) =>
-  res.render('index', {
+  res.render('page/index', {
     page: 'index',
   })
 )
 
 router.get('/contacto', (req, res) =>
-  res.render('contacto', {
+  res.render('page/contacto', {
     page: 'contacto',
   })
 )
 
 router.get('/padecimientos', (req, res) =>
-  res.render('padecimientos', {
+  res.render('page/padecimientos', {
     page: 'padecimientos',
   })
 )
 
 router.get('/faqs', (req, res) =>
-  res.render('faqs', {
+  res.render('page/faqs', {
     page: 'faqs',
   })
 )
@@ -37,7 +37,7 @@ router.get('/forma-cara', async (req, res) => {
   let redonda = await product.getProductsPerFace('redonda')
   let triangular = await product.getProductsPerFace('corazon')
   let diamante = await product.getProductsPerFace('corazon')
-  res.render('forma-cara', {
+  res.render('page/forma-cara', {
     corazon,
     cuadrada,
     rectangular,
@@ -52,7 +52,7 @@ router.get('/forma-cara', async (req, res) => {
 router.get('/tienda', async (req, res) => {
   const category = new Category()
   const categories = await category.getCAtegories()
-  res.render('tienda', {
+  res.render('page/tienda', {
     page: 'tienda',
     categories,
   })
@@ -63,14 +63,14 @@ router.get('/detalle-producto', async (req, res) => {
   let product = new Product()
   product = await product.findOneByID(id_producto)
 
-  res.render('detalle-producto', {
+  res.render('page/detalle-producto', {
     page: 'detalle-producto',
     product: product[0],
   })
 })
 
 router.get('/pagar', (req, res) =>
-  res.render('pagar', {
+  res.render('page/pagar', {
     page: 'pagar',
   })
 )

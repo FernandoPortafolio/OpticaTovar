@@ -2,9 +2,11 @@ const { Router } = require('express')
 const router = Router()
 
 //importing all routes
-router.use(require('./navigation.routes'))
-router.use('/admin', require('./admin.routes'))
-router.use('/api/products', require('./products.routes'))
+router.use(require('./page/navigation.routes'))
+router.use('/admin', require('./admin/admin.routes'))
+router.use('/api/products', require('./api/products.routes'))
+
+//404 middleware
 router.use((req, res, next) => {
   res.render('404', {
     layout: '404',
