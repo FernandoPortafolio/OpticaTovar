@@ -1,0 +1,45 @@
+<h3 class="mb-4">Marcas</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás la informacón de todas las marcas</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Marca</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#each marcas}}
+              <tr>
+                <td>
+                  {{this.marca}}
+                </td>
+                <td class="text-center">
+                  <a href="/admin/marcas/eliminar?id_marca={{this.id_marca}}" class='btn btn-danger' role='button'><i class="fas fa-trash-alt"></i></a>
+                  <a href="/admin/marcas/editar?id_marca={{this.id_marca}}" class='btn btn-secondary' role='button'><i class="far fa-edit"></i></a>
+                </td>
+              </tr>
+            {{/each}}
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Marca</th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </div>
+</div>

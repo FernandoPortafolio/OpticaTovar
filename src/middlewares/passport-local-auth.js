@@ -1,6 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const Usuario = require('../models/usuario.model')
+const usuario = require('../models/usuario')
 const md5 = require('md5')
 
 passport.serializeUser((user, done) => {
@@ -8,7 +8,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (id, done) => {
-  const user = await Usuario.findOneById(id)
+  const user = await usuario.findOneById(id)
   done(null, user)
 })
 
@@ -22,7 +22,7 @@ passport.use(
     },
     async (req, correo, contrasena, done) => {
       try {
-        const user = await Usuario.findOneByEmail(correo)
+        const user = await usuario.findOneByEmail(correo)
         if (user) {
           const passEncrypted = md5(contrasena)
           if (user.contrasena === passEncrypted) {

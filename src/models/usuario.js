@@ -1,6 +1,6 @@
 const { connect } = require('../config/database')
 class Usuario {
-  static async findOneByEmail(email) {
+  async findOneByEmail(email) {
     const sql = `
     SELECT id_usuario, correo, contrasena, nombre, COALESCE(foto, 'no-foto.jpg') as foto from usuario where correo = ? 
     `
@@ -9,7 +9,7 @@ class Usuario {
     return user[0]
   }
 
-  static async findOneById(id_usuario) {
+  async findOneById(id_usuario) {
     const conn = await connect()
     let sql = `
     SELECT id_usuario, correo, nombre, COALESCE(foto, 'no-foto.jpg') as foto from usuario where id_usuario = ? 
@@ -44,4 +44,4 @@ class Usuario {
   }
 }
 
-module.exports = Usuario
+module.exports = new Usuario()

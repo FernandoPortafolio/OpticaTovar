@@ -1,0 +1,45 @@
+<h3 class="mb-4">Categorias</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás la informacón de todas las categorias</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Categorias</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#each categorias}}
+              <tr>
+                <td>
+                  {{this.categoria}}
+                </td>
+                <td class="text-center">
+                  <a href="/admin/categorias/eliminar?id_categoria={{this.id_categoria}}" class='btn btn-danger' role='button'><i class="fas fa-trash-alt"></i></a>
+                  <a href="/admin/categorias/editar?id_categoria={{this.id_categoria}}" class='btn btn-secondary' role='button'><i class="far fa-edit"></i></a>
+                </td>
+              </tr>
+            {{/each}}
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Categoria</th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </div>
+</div>

@@ -34,7 +34,7 @@ class Product {
     `
     const product = await conn.query(sql, [id_producto])
     conn.end()
-    return product
+    return product[0]
   }
 
   async getStock(id_producto) {
@@ -159,4 +159,4 @@ function mapOrderBy(orderBy) {
   }
 }
 
-module.exports = Product
+module.exports = new Product()

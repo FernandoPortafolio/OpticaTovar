@@ -25,7 +25,7 @@ class TiendaUI {
   async updateProducts() {
     let response = await fetch(this.getProductUrl())
     let data = await response.json()
-
+    console.log(data);
     $('.productos').html('')
     data.items.forEach((producto) => {
       var html = `

@@ -36,8 +36,13 @@ router.get('/logout', (req, res) => {
 //=======================================================
 // Navigation routes
 //=======================================================
-router.get('/dashboard', isAuthenticated, (req, res) => {
+router.get('/dashboard', (req, res) => {
   res.render('admin/dashboard', { layout: 'admin', page: 'dashboard' })
 })
+
+router.use(require('./marca.routes'))
+router.use(require('./category.routes'))
+router.use(require('./forma.routes'))
+router.use(require('./tipo-armazon.routes'))
 
 module.exports = router
