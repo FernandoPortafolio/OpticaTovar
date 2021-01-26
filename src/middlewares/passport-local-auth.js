@@ -23,7 +23,6 @@ passport.use(
     async (req, correo, contrasena, done) => {
       try {
         const user = await Usuario.findOneByEmail(correo)
-        console.log(user);
         if (user) {
           const passEncrypted = md5(contrasena)
           if (user.contrasena === passEncrypted) {

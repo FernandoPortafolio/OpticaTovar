@@ -37,8 +37,7 @@ router.get('/logout', (req, res) => {
 // Navigation routes
 //=======================================================
 router.get('/dashboard', isAuthenticated, (req, res) => {
-  console.log(req.user)
-  res.send('dashboard')
+  res.render('admin/dashboard', { layout: 'admin', page: 'dashboard' })
 })
 
 module.exports = router

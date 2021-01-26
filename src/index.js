@@ -35,6 +35,7 @@ app.use(
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(require('./middlewares/middlewares').captureUser)
 
 //static files
 app.use(express.static(path.join(__dirname, '../public')))
