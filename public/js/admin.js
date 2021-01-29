@@ -284,11 +284,12 @@ function addProductToTable() {
       <tr>
         <th scope="row">${++contador}</th>
         <td>${descripcion}</td>
-        <input type="hidden" name="productos[${productoId}][descripcion]" value="${descripcion}">
+        <input type="hidden" name="descripcion" value="${descripcion}">
         <td>${cantidad}</td>
-        <input type="hidden" name="productos[${productoId}][cantidad]" value="${cantidad}">
+        <input type="hidden" name="cantidad" value="${cantidad}">
         <td class="text-right">${formatter.format(precio)}</td>
-        <input type="hidden" name="productos[${productoId}][precio]" value="${precio}">
+        <input type="hidden" name="precio" value="${precio}">
+        <input type="hidden" name="id_producto" value="${productoId}">
         <td><button class='btn btn-sm btn-danger btn-eliminar' role='button'><i class="fas fa-trash-alt"></i></button></td>
       </tr>`;
 

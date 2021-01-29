@@ -1,0 +1,53 @@
+<h3 class="mb-4">Compras</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás la informacón de todas las compras realizadas a proveedores</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Fecha</th>
+              <th>Proveedor</th>
+              <th>
+                <!--acciones-->
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#each compras}}
+              <tr>
+                <td>{{this.folio}}</td>
+                <td>{{formatDate this.fecha}}</td>
+                <td>{{this.razon_social}}</td>
+                <td class="text-center">
+                  <a href="/admin/compras/eliminar?id_compra={{this.id_compra}}" class='btn btn-sm btn-danger' role='button'><i class="fas fa-trash-alt"></i></a>
+                  <a href="/admin/compras/editar?id_compra={{this.id_compra}}" class='btn btn-sm btn-secondary' role='button'><i class="far fa-edit"></i></a>
+                </td>
+              </tr>
+            {{/each}}
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Folio</th>
+              <th>Fecha</th>
+              <th>Proveedor</th>
+              <th>
+                <!--acciones-->
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </div>
+</div>
