@@ -1,0 +1,51 @@
+<h3 class="mb-4">Inventario</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás el inventario de todos los productos</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>
+                <!--Foto-->
+              </th>
+              <th>Producto</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#each inventario}}
+            <tr>
+              <td class="p-0 text-center w-25"><img src="../../img/productos/{{this.foto}}" alt="Imagen del producto" height="75"></td>
+              <td>
+                {{this.descripcion}}
+              </td>
+              <td>
+                {{this.stock}}
+              </td>
+            </tr>
+            {{/each}}
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                <!--Foto-->
+              </th>
+              <th>Producto</th>
+              <th>Stock</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </div>
+</div>

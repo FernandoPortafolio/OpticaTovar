@@ -1,0 +1,86 @@
+<h3 class="mb-4">Productos</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás la informacón de todos los productos</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>
+                <!--foto-->
+              </th>
+              <th>Descripción</th>
+              <th>Tipo</th>
+              <th>Marca</th>
+              <th>Categoria</th>
+              <th>Forma</th>
+              <th>Precio</th>
+              <th>SKU</th>
+              <th>
+                <!--acciones-->
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#each productos}}
+              <tr>
+                <td class="p-0 text-center align-middle"><img src="../../img/productos/{{this.foto}}" alt="Imagen del producto" height="75"></td>
+                <td>
+                  {{this.descripcion}}
+                </td>
+                <td>
+                  {{this.tipo_armazon}}
+                </td>
+                <td>
+                  {{this.marca}}
+                </td>
+                <td>
+                  {{this.categoria}}
+                </td>
+                <td>
+                  {{this.forma}}
+                </td>
+                <td>
+                  {{this.precio}}
+                </td>
+                <td>
+                  {{this.sku}}
+                </td>
+                <td class="text-center">
+                  <a href="/admin/productos/eliminar?id_producto={{this.id_producto}}" class='btn btn-sm btn-danger mb-1' role='button'><i class="fas fa-trash-alt"></i></a>
+                  <a href="/admin/productos/editar?id_producto={{this.id_producto}}" class='btn btn-sm btn-secondary' role='button'><i class="far fa-edit"></i></a>
+                </td>
+              </tr>
+            {{/each}}
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                <!--foto-->
+              </th>
+              <th>Descripción</th>
+              <th>Tipo</th>
+              <th>Marca</th>
+              <th>Categoria</th>
+              <th>Forma</th>
+              <th>Precio</th>
+              <th>SKU</th>
+              <th>
+                <!--acciones-->
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </div>
+</div>

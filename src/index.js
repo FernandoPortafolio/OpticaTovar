@@ -5,6 +5,7 @@ const settings = require('./config/settings')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('passport')
+const fileUpload = require('express-fileupload')
 
 const app = express()
 
@@ -25,6 +26,14 @@ app.set('view engine', 'hbs')
 //middlewares
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: 'tmp/',
+    safeFileNames: true,
+    preserveExtension: 4,
+  })
+)
 app.use(
   session({
     secret: settings.SECRET,

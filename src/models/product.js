@@ -1,4 +1,7 @@
 const { connect } = require('../config/database')
+const uniqid = require('uniqid')
+const fs = require('fs')
+const path = require('path')
 
 class Product {
   async fetchAll() {
@@ -35,6 +38,151 @@ class Product {
     const product = await conn.query(sql, [id_producto])
     conn.end()
     return product[0]
+  }
+
+  async createProduct(product, foto) {
+    const conn = await connect()
+    conn.beginTransaction()
+
+    try {
+      //insertar en la tabla de productos
+      let sql =
+        'INSERT INTO producto(precio, descripcion, id_tipo_armazon, id_marca, id_categoria, id_forma) VALUES (?,?,?,?,?,?)'
+      let result = await conn.query(sql, [
+        product.precio,
+        product.descripcion,
+        product.id_tipo_armazon,
+        product.id_marca,
+        product.id_categoria,
+        product.id_forma,
+      ])
+      const insertId = result.insertId
+
+      //insertar en la tabla de detalle de producto
+      const isUploaded = await uploadImage(foto)
+      if (isUploaded.ok) {
+        sql =
+          'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku, foto) VALUES (?,?,?,?,?,?,?,?)'
+        await conn.query(sql, [
+          insertId,
+          product.color,
+          product.talla,
+          product.longitud_varilla,
+          product.ancho_puente,
+          product.ancho_total,
+          product.sku,
+          isUploaded.name,
+        ])
+      } else {
+        sql =
+          'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku) VALUES (?,?,?,?,?,?,?)'
+        await conn.query(sql, [
+          insertId,
+          product.color,
+          product.talla,
+          product.longitud_varilla,
+          product.ancho_puente,
+          product.ancho_total,
+          product.sku,
+        ])
+      }
+
+      //insertar en inventario 0 unidades
+      sql = 'INSERT INTO inventario(id_producto, stock) VALUES (?,?)'
+      await conn.query(sql, [insertId, 0])
+
+      conn.commit()
+      return insertId
+    } catch (error) {
+      conn.rollback()
+      console.log(error)
+    }
+
+    conn.end()
+  }
+
+  async modifyProduct(product, foto) {
+    const conn = await connect()
+    conn.beginTransaction()
+
+    try {
+      //insertar en la tabla de productos
+      let sql =
+        'UPDATE producto SET precio = ?,descripcion = ?,id_tipo_armazon = ?,id_marca = ?,id_categoria = ?,id_forma = ? WHERE id_producto = ?'
+      await conn.query(sql, [
+        product.precio,
+        product.descripcion,
+        product.id_tipo_armazon,
+        product.id_marca,
+        product.id_categoria,
+        product.id_forma,
+        product.id_producto,
+      ])
+
+      //modificar en la tabla de detalle de producto
+      const isUploaded = await uploadImage(foto)
+      if (isUploaded.ok) {
+        const old = await this.findOneByID(product.id_producto)
+
+        sql =
+          'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=?, foto = ? WHERE id_producto = ?'
+        await conn.query(sql, [
+          product.color,
+          product.talla,
+          product.longitud_varilla,
+          product.ancho_puente,
+          product.ancho_total,
+          product.sku,
+          isUploaded.name,
+          product.id_producto,
+        ])
+        deleteImage(old.foto)
+      } else {
+        sql =
+          'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=? WHERE id_producto = ?'
+        await conn.query(sql, [
+          product.color,
+          product.talla,
+          product.longitud_varilla,
+          product.ancho_puente,
+          product.ancho_total,
+          product.sku,
+          product.id_producto,
+        ])
+      }
+      conn.commit()
+    } catch (error) {
+      conn.rollback()
+      console.log(error)
+    }
+
+    conn.end()
+  }
+
+  async deleteProduct(id_producto) {
+    const old = await this.findOneByID(id_producto)
+    try {
+      const sql = 'DELETE from producto where id_producto = ?'
+      const conn = await connect()
+      await conn.query(sql, [id_producto])
+      deleteImage(old.foto)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getInventario() {
+    const sql = `
+    SELECT i.*, p.descripcion, pd.foto 
+        FROM inventario i
+        JOIN producto p on p.id_producto = i.id_producto
+        JOIN producto_detalle pd on pd.id_producto = p.id_producto
+        order by i.stock desc
+      `
+    const conn = await connect()
+    const result = await conn.query(sql)
+    conn.end()
+    return result
   }
 
   async getStock(id_producto) {
@@ -156,6 +304,36 @@ function mapOrderBy(orderBy) {
 
     default:
       return ' order by id_producto '
+  }
+}
+
+async function uploadImage(foto) {
+  if (!foto) return { ok: false }
+
+  const validTypes = ['jpg', 'jpeg', 'png', 'gif']
+  const type = foto.mimetype.split('/')[1]
+  const newName = `${uniqid().substring(0, 13)}.${type}`
+  console.log('New name: ' + newName)
+  if (validTypes.includes(type)) {
+    try {
+      await foto.mv(`public/img/productos/${newName}`)
+      return { ok: true, name: newName }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return { ok: false }
+}
+
+function deleteImage(imageName) {
+  let imagePath = path.resolve(`public/img/productos/${imageName}`)
+  if (fs.existsSync(imagePath)) {
+    fs.unlinkSync(imagePath)
+    console.log('Image deleted')
+  } else {
+    console.log('la imagen no existe en')
+    console.log(imagePath)
   }
 }
 

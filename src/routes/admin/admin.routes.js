@@ -44,5 +44,9 @@ router.use(require('./marca.routes'))
 router.use(require('./category.routes'))
 router.use(require('./forma.routes'))
 router.use(require('./tipo-armazon.routes'))
+router.use(require('./products.routes'))
+router.use(require('./proveedor.routes'))
+router.use(require('./cliente.routes'))
+router.use(require('./compras.routes'))
 
 module.exports = router
