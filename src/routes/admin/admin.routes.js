@@ -48,5 +48,6 @@ router.use(require('./products.routes'))
 router.use(require('./proveedor.routes'))
 router.use(require('./cliente.routes'))
 router.use(require('./compras.routes'))
+router.use(require('./ventas.routes'))
 
 module.exports = router

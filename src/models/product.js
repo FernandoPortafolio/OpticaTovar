@@ -190,7 +190,7 @@ class Product {
     const sql = `SELECT stock from inventario where id_producto = ?`
     let stock = await conn.query(sql, [id_producto])
     conn.end()
-    return stock[0]['stock']
+    return stock[0]?.stock
   }
 
   async showPaginate(p_page, p_orderBy, p_filter) {
@@ -285,6 +285,35 @@ class Product {
     const products = await conn.query(sql)
     conn.end()
     return products
+  }
+
+  async getSalesByMonth() {
+    const conn = await connect()
+    const sql = `SELECT
+    month(fecha) AS mes,
+    COUNT(*) AS ventas
+    FROM venta
+    WHERE YEAR(fecha) = ${new Date().getFullYear()}
+    GROUP BY month(fecha)
+    ORDER BY month(fecha)`
+    const sales = conn.query(sql)
+    conn.end()
+    return sales
+  }
+
+  async getSalesByPlace() {
+    const conn = await connect()
+    let sql = `SELECT COUNT(*) as ventas from venta where tipo like 'Paypal' and status like 'COMPLETED'`
+    const paypalSales = await conn.query(sql)
+
+    sql = `SELECT COUNT(*) as ventas from venta where tipo like 'Manual' and status like 'COMPLETED'`
+    const storeSales = await conn.query(sql)
+
+    conn.end()
+    return {
+      sales_store: paypalSales,
+      sales_page: storeSales,
+    }
   }
 }
 

@@ -10,7 +10,7 @@ class Cliente {
     return result
   }
 
-  async readOneById(id_cliente) {
+  async findOneById(id_cliente) {
     const sql = 'SELECT * from cliente where id_cliente = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_cliente])
@@ -26,12 +26,11 @@ class Cliente {
     return result
   }
 
-  async createCliente(cliente, isManual) {
+  async createCliente(cliente, isManual, connection) {
     const tipo = isManual ? 'Manual' : 'Paypal'
     const sql =
       'INSERT INTO cliente(id_cliente, email, nombre, apellido, calle, colonia, ciudad, cod_postal, tipo) VALUES (?,?,?,?,?,?,?,?,?)'
-    const conn = await connect()
-    const result = await conn.query(sql, [
+    const params = [
       cliente.id_cliente,
       cliente.email,
       cliente.nombre,
@@ -41,8 +40,15 @@ class Cliente {
       cliente.ciudad,
       cliente.cod_postal,
       tipo,
-    ])
-    conn.end()
+    ]
+    if (isManual) {
+      const conn = await connect()
+      const result = await conn.query(sql, params)
+      conn.end()
+    } else {
+      const result = await connection.query(sql, params)
+    }
+
     return result
   }
 

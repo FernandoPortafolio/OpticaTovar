@@ -73,7 +73,7 @@ function renderPaypalButton() {
           console.log(details)
 
           //guardar la compra en la base de datos
-          // savePurchase(details);
+          savePurchase(details)
 
           Swal.fire(
             'Perfecto!',
@@ -86,7 +86,7 @@ function renderPaypalButton() {
       },
       onCancel: function (data) {
         //agregar un registro a la base de datos de compra cancelada
-        // saveCancelPurchase(data);
+        saveCancelPurchase(data)
 
         console.log(data)
         Swal.fire(
@@ -189,15 +189,13 @@ async function savePurchase(purchase) {
   })
 
   //Mandar la data en JSON a la API
-  var form = new FormData()
-  form.append('data', JSON.stringify(data))
-  response = await fetch(
-    'http://localhost/PrograWeb/Optica/api/venta/api-venta.php?action=createVenta',
-    {
-      method: 'POST',
-      body: form,
-    }
-  )
+  response = await fetch('/api/ventas/create', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
   respJSON = await response.json()
   console.log(respJSON)
 }
@@ -210,13 +208,13 @@ async function saveCancelPurchase(purchase) {
 
   var form = new FormData()
   form.append('data', JSON.stringify(data))
-  response = await fetch(
-    'http://localhost/PrograWeb/Optica/api/venta/api-venta.php?action=createVenta',
-    {
-      method: 'POST',
-      body: form,
-    }
-  )
+  response = await fetch('/api/ventas/create', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
   respJSON = await response.json()
   console.log(respJSON)
 }

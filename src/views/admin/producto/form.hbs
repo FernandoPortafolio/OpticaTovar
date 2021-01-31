@@ -23,7 +23,7 @@
             <label for="id_marca">Marca</label>
             <select name="id_marca" id="id_marca" class="form-control">
               {{#each marcas}}
-                <option value="{{this.id_marca}}" {{isSelected this.id_marca producto.id_marca}}>
+                <option value="{{this.id_marca}}" {{isSelected this.id_marca ../producto.id_marca}}>
                   {{this.marca}}
                 </option>
               {{/each}}
@@ -34,7 +34,7 @@
             <label for="id_categoria">Categoria</label>
             <select name="id_categoria" id="id_categoria" class="form-control">
               {{#each categorias}}
-                <option value="{{this.id_categoria}}" {{isSelected this.id_categoria producto.id_categoria}}>
+                <option value="{{this.id_categoria}}" {{isSelected this.id_categoria ../producto.id_categoria}}>
                   {{this.categoria}}
                 </option>
               {{/each}}
@@ -45,7 +45,7 @@
             <label for="id_forma">Forma</label>
             <select name="id_forma" id="id_forma" class="form-control">
               {{#each formas}}
-                <option value="{{this.id_forma}}" {{isSelected this.id_forma producto.id_forma}}>
+                <option value="{{this.id_forma}}" {{isSelected this.id_forma ../producto.id_forma}}>
                   {{this.forma}}
                 </option>
               {{/each}}
@@ -56,7 +56,7 @@
             <label for="id_tipo_armazon">Tipo de Armazon</label>
             <select name="id_tipo_armazon" id="id_tipo_armazon" class="form-control">
               {{#each tipos}}
-                <option value="{{this.id_tipo_armazon}}" {{isSelected this.id_tipo_armazon producto.id_tipo_armazon}}>
+                <option value="{{this.id_tipo_armazon}}" {{isSelected this.id_tipo_armazon ../producto.id_tipo_armazon}}>
                   {{this.tipo_armazon}}
                 </option>
               {{/each}}

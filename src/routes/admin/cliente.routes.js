@@ -27,7 +27,7 @@ router.post('/clientes/agregar', function (req, res) {
 
 router.get('/clientes/editar', async (req, res) => {
   const id_cliente = req.query.id_cliente
-  const _cliente = await cliente.readOneById(id_cliente)
+  const _cliente = await cliente.findOneById(id_cliente)
   console.log(_cliente)
   res.render('admin/cliente/form', {
     layout: 'admin',
