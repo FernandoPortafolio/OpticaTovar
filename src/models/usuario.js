@@ -42,6 +42,15 @@ class Usuario {
 
     return user
   }
+
+  async fetchAll() {
+    const sql =
+      "SELECT id_usuario, correo, nombre, COALESCE(foto, 'no-foto.jpg') as foto FROM usuario"
+    const conn = await connect()
+    const result = await conn.query(sql)
+    conn.end()
+    return result
+  }
 }
 
 module.exports = new Usuario()

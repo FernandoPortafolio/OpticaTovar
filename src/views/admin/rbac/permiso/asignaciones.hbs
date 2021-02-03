@@ -1,0 +1,45 @@
+<h3 class="mb-4">Asignación de Permisos</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página podrás asignar y quitar permisos a un rol</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Rol</th>
+              <th scope="col">Permiso</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each asignaciones}}
+              <tr>
+                <td>
+                  {{this.rol}}
+                </td>
+                <td>
+                  {{this.permiso}}
+                </td>
+                <td class="text-center"><a href="/admin/permisos/asignaciones/eliminar?id_rol={{this.id_rol}}&id_permiso={{this.id_permiso}}"
+                    class='btn btn-sm btn-danger' role='button'><i class="fas fa-trash-alt"></i></a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="col">Rol</th>
+              <th scope="col">Permiso</th>
+              <th scope="col"></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>

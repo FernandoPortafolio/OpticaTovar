@@ -1,0 +1,35 @@
+<h3 class="mb-4">
+  {{title}}
+</h3>
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Formulario de Proveedor -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h4 class="card-title">Llena los datos del Rol</h4>
+      </div>
+      <!-- /.card-header -->
+      <!-- form start -->
+      <form action="{{route}}" method="POST">
+
+        <div class="card-body">
+          <div class="form-group">
+            <label for="rol">Rol</label>
+            <input type="text" class="form-control" id="rol" name="rol" value="{{rol.rol}}">
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Guardar
+          </button>
+        </div>
+
+        {{#if rol}}
+          <input type="hidden" name="id_rol" value="{{rol.id_rol}}">
+        {{/if}}
+
+      </form>
+      <!-- Form end -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>

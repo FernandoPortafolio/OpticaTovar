@@ -1,0 +1,46 @@
+<h3 class="mb-4">Roles</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás la informacón de todos los roles que se pueden asignar a un usuario</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Rol</th>
+              <th scope="col">
+                <!--botones-->
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each roles}}
+              <tr>
+                <td>
+                  {{this.rol}}
+                </td>
+                <td class="text-center">
+                  <a href="/admin/roles/eliminar?id_rol={{this.id_rol}}" class='btn btn-sm btn-danger' role='button'><i class="fas fa-trash-alt"></i></a>
+                  <a href="/admin/roles/editar?id_rol={{this.id_rol}}" class='btn btn-sm btn-secondary' role='button'><i class="far fa-edit"></i></a>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="col">Rol</th>
+              <th scope="col">
+                <!--botones-->
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>

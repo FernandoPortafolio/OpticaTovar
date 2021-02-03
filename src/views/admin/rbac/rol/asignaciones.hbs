@@ -1,0 +1,49 @@
+<h3 class="mb-4">Asignación de Roles</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página podrás asignar y quitar roles a un usuario</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Rol</th>
+              <th scope="col">
+                <!--botones-->
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each asignaciones}}
+              <tr>
+                <td>
+                  {{this.usuario}}
+                </td>
+                <td>
+                  {{this.rol}}
+                </td>
+                <td class="text-center"><a href="/admin/roles/asignaciones/eliminar?id_usuario={{this.id_usuario}}&id_rol={{this.id_rol}}"
+                    class='btn btn-sm btn-danger' role='button'><i class="fas fa-trash-alt"></i></a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Rol</th>
+              <th scope="col">
+                <!--botones-->
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
