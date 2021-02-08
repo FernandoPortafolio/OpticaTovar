@@ -1,4 +1,9 @@
 const { connect } = require('../config/database')
+const uniqid = require('uniqid')
+const fs = require('fs')
+const path = require('path')
+const md5 = require('md5')
+
 class Usuario {
   async findOneByEmail(email) {
     const sql = `
@@ -50,6 +55,137 @@ class Usuario {
     const result = await conn.query(sql)
     conn.end()
     return result
+  }
+
+  async createUsuario(usuario, foto) {
+    const conn = await connect()
+    conn.beginTransaction()
+    let upload
+    try {
+      //subir la imagen
+      upload = await uploadImage(foto)
+
+      //insertar al usuario
+      let sql =
+        'INSERT into usuario(correo, nombre, contrasena, foto) values (?,?,?,?)'
+      const result = await conn.query(sql, [
+        usuario.correo,
+        usuario.nombre,
+        md5(usuario.contrasena),
+        upload.name,
+      ])
+      const insertId = result.insertId
+
+      //darle el rol de empleado al nuevo usuario
+      sql = 'INSERT into usuario_rol(id_usuario, id_rol) values (?,?)'
+      await conn.query(sql, [insertId, 4])
+
+      //enviar correo con las credenciales
+
+      conn.commit()
+    } catch (error) {
+      console.error(error)
+      conn.rollback()
+      deleteImage(upload.name)
+    }
+    conn.end()
+  }
+
+  async modifyUsuario(usuario, foto) {
+    const conn = await connect()
+    conn.beginTransaction()
+    let upload = null
+    try {
+      upload = await uploadImage(foto)
+      let sql = ''
+      let params = []
+      if (usuario.contrasena) {
+        if (upload.ok) {
+          sql =
+            'UPDATE usuario set correo = ?, contrasena = ?, nombre = ?, foto = ? where id_usuario = ?'
+          params = [
+            usuario.correo,
+            md5(usuario.contrasena),
+            usuario.nombre,
+            upload.name,
+            usuario.id_usuario,
+          ]
+        } else {
+          sql =
+            'UPDATE usuario set correo = ?, contrasena = ?, nombre = ? where id_usuario = ?'
+          params = [
+            usuario.correo,
+            md5(usuario.contrasena),
+            usuario.nombre,
+            usuario.id_usuario,
+          ]
+        }
+      } else if (upload.ok) {
+        sql =
+          'UPDATE usuario set correo = ?, nombre = ?, foto = ?  where id_usuario = ?'
+        params = [
+          usuario.correo,
+          usuario.nombre,
+          upload.name,
+          usuario.id_usuario,
+        ]
+      } else {
+        sql = 'UPDATE usuario set correo = ?, nombre = ?  where id_usuario = ?'
+        params = [usuario.correo, usuario.nombre, usuario.id_usuario]
+      }
+      await conn.query(sql, params)
+      if (upload.ok) {
+        const old = await this.findOneById(usuario.id_usuario)
+        deleteImage(old.foto)
+      }
+      conn.commit()
+    } catch (error) {
+      console.error(error)
+      conn.rollback()
+      deleteImage(upload.name)
+    }
+    conn.end()
+  }
+
+  async deleteUsuario(id_usuario) {
+    const old = await this.findOneById(id_usuario)
+    try {
+      const sql = 'DELETE from usuario where id_usuario = ?'
+      const conn = await connect()
+      await conn.query(sql, [id_usuario])
+      deleteImage(old.foto)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+async function uploadImage(foto) {
+  if (!foto) return { ok: false }
+
+  const validTypes = ['jpg', 'jpeg', 'png', 'gif']
+  const type = foto.mimetype.split('/')[1]
+  const newName = `${uniqid().substring(0, 13)}.${type}`
+  console.log('New name: ' + newName)
+  if (validTypes.includes(type)) {
+    try {
+      await foto.mv(`public/img/usuarios/${newName}`)
+      return { ok: true, name: newName }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return { ok: false }
+}
+
+function deleteImage(imageName) {
+  let imagePath = path.resolve(`public/img/usuarios/${imageName}`)
+  if (fs.existsSync(imagePath) && imageName !== 'no-foto.jpg') {
+    fs.unlinkSync(imagePath)
+    console.log('Image deleted, was: ', imageName)
+  } else {
+    console.log('la imagen no existe en: ', imagePath)
   }
 }
 

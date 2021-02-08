@@ -209,7 +209,7 @@ function validatePassword(e) {
 /**
  * Esta funcion agrega el precio a un input hidden cuando se registra en la pagina de venta.
  * Esto porque aqui el precio no lo pone el usuario, como en proveedor. Viene del servidor
- * Esto con la funalidad de que se mande por medio de POST como un arreglo.
+ * Esto con la finalidad de que se mande por medio de POST como un arreglo.
  */
 async function obtenerProductoPrecio() {
   let idProducto = $('#producto').val()

@@ -1,0 +1,59 @@
+<h3 class="mb-4">Usuarios</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">En esta página encontrarás la informacón de todos los usuarios del sistema</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="tabla" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">
+                <!--foto-->
+              </th>
+              <th scope="col">Correo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">
+                <!--Botones-->
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each usuarios}}
+              <tr>
+                <td class="p-0 text-center"><img src="/img/usuarios/{{this.foto}}" alt="Imagen de perfil" height="100" class="rounded-circle"></td>
+                <td>
+                  {{this.correo}}
+                </td>
+                <td>
+                  {{this.nombre}}
+                </td>
+                <td class="text-center">
+                  <a href="/admin/usuarios/eliminar?id_usuario={{this.id_usuario}}" class='btn btn-sm btn-danger' role='button'><i
+                      class="fas fa-trash-alt"></i></a>
+                  <a href="/admin/usuarios/editar?id_usuario={{this.id_usuario}}" class='btn btn-sm btn-secondary' role='button'><i class="far fa-edit"></i></a>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="col">
+                <!--foto-->
+              </th>
+              <th scope="col">Correo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">
+                <!--Botones-->
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>

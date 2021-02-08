@@ -43,7 +43,7 @@ class Product {
   async createProduct(product, foto) {
     const conn = await connect()
     conn.beginTransaction()
-
+    let upload
     try {
       //insertar en la tabla de productos
       let sql =
@@ -59,43 +59,29 @@ class Product {
       const insertId = result.insertId
 
       //insertar en la tabla de detalle de producto
-      const isUploaded = await uploadImage(foto)
-      if (isUploaded.ok) {
-        sql =
-          'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku, foto) VALUES (?,?,?,?,?,?,?,?)'
-        await conn.query(sql, [
-          insertId,
-          product.color,
-          product.talla,
-          product.longitud_varilla,
-          product.ancho_puente,
-          product.ancho_total,
-          product.sku,
-          isUploaded.name,
-        ])
-      } else {
-        sql =
-          'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku) VALUES (?,?,?,?,?,?,?)'
-        await conn.query(sql, [
-          insertId,
-          product.color,
-          product.talla,
-          product.longitud_varilla,
-          product.ancho_puente,
-          product.ancho_total,
-          product.sku,
-        ])
-      }
+      upload = await uploadImage(foto)
+      sql =
+        'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku, foto) VALUES (?,?,?,?,?,?,?,?)'
+      await conn.query(sql, [
+        insertId,
+        product.color,
+        product.talla,
+        product.longitud_varilla,
+        product.ancho_puente,
+        product.ancho_total,
+        product.sku,
+        upload.name,
+      ])
 
       //insertar en inventario 0 unidades
       sql = 'INSERT INTO inventario(id_producto, stock) VALUES (?,?)'
       await conn.query(sql, [insertId, 0])
 
       conn.commit()
-      return insertId
     } catch (error) {
       conn.rollback()
       console.log(error)
+      deleteImage(upload.name)
     }
 
     conn.end()
@@ -105,6 +91,7 @@ class Product {
     const conn = await connect()
     conn.beginTransaction()
 
+    let upload
     try {
       //insertar en la tabla de productos
       let sql =
@@ -120,40 +107,38 @@ class Product {
       ])
 
       //modificar en la tabla de detalle de producto
-      const isUploaded = await uploadImage(foto)
-      if (isUploaded.ok) {
-        const old = await this.findOneByID(product.id_producto)
+      upload = await uploadImage(foto)
 
+      let params = [
+        product.color,
+        product.talla,
+        product.longitud_varilla,
+        product.ancho_puente,
+        product.ancho_total,
+        product.sku,
+        product.id_producto,
+      ]
+      if (upload.ok) {
         sql =
           'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=?, foto = ? WHERE id_producto = ?'
-        await conn.query(sql, [
-          product.color,
-          product.talla,
-          product.longitud_varilla,
-          product.ancho_puente,
-          product.ancho_total,
-          product.sku,
-          isUploaded.name,
-          product.id_producto,
-        ])
-        deleteImage(old.foto)
+        params.splice(6, 0, upload.name)
       } else {
         sql =
           'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=? WHERE id_producto = ?'
-        await conn.query(sql, [
-          product.color,
-          product.talla,
-          product.longitud_varilla,
-          product.ancho_puente,
-          product.ancho_total,
-          product.sku,
-          product.id_producto,
-        ])
       }
+
+      await conn.query(sql, params)
+
+      if (upload.ok) {
+        const old = await this.findOneByID(product.id_producto)
+        deleteImage(old.foto)
+      }
+
       conn.commit()
     } catch (error) {
       conn.rollback()
       console.log(error)
+      deleteImage(upload.name)
     }
 
     conn.end()
@@ -357,12 +342,11 @@ async function uploadImage(foto) {
 
 function deleteImage(imageName) {
   let imagePath = path.resolve(`public/img/productos/${imageName}`)
-  if (fs.existsSync(imagePath)) {
+  if (fs.existsSync(imagePath) && imageName !== 'no-foto.jpg') {
     fs.unlinkSync(imagePath)
     console.log('Image deleted')
   } else {
-    console.log('la imagen no existe en')
-    console.log(imagePath)
+    console.log('la imagen no existe en: ', imagePath)
   }
 }
 

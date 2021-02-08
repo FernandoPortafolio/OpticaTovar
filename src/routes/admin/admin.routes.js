@@ -51,5 +51,6 @@ router.use(require('./compras.routes'))
 router.use(require('./ventas.routes'))
 router.use(require('./roles.routes'))
 router.use(require('./permisos.routes'))
+router.use(require('./usuarios.routes'))
 
 module.exports = router

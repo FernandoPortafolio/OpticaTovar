@@ -32,10 +32,10 @@ router.get('/productos/agregar', async (req, res) => {
   })
 })
 
-router.post('/productos/agregar', function (req, res) {
+router.post('/productos/agregar', async function (req, res) {
   const body = req.body
   const foto = req.files?.foto
-  product.createProduct(body, foto)
+  await product.createProduct(body, foto)
   res.redirect('/admin/productos')
 })
 
@@ -62,7 +62,7 @@ router.get('/productos/editar', async (req, res) => {
 router.post('/productos/editar', async (req, res) => {
   const body = req.body
   const foto = req.files?.foto
-  product.modifyProduct(body, foto)
+  await product.modifyProduct(body, foto)
   res.redirect('/admin/productos')
 })
 
