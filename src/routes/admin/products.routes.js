@@ -1,4 +1,5 @@
 const { Router } = require('express')
+const { requirePermision } = require('../../middlewares/passport-local-auth')
 const product = require('../../models/product')
 const marca = require('../../models/marca')
 const categoria = require('../../models/category')
@@ -6,7 +7,9 @@ const forma = require('../../models/forma')
 const tipo = require('../../models/tipo_armazon')
 const router = Router()
 
-router.get('/inventario', async (req, res) => {
+router.all('/productos', requirePermision('Productos'))
+
+router.get('/inventario', requirePermision('Inventario'), async (req, res) => {
   const inventario = await product.getInventario()
   res.render('admin/inventario/table', { layout: 'admin', inventario })
 })

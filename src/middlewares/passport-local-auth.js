@@ -2,6 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const usuario = require('../models/usuario')
 const md5 = require('md5')
+const { verifyPermission } = require('../helpers/check-permission')
 
 passport.serializeUser((user, done) => {
   done(null, user.id_usuario)
@@ -52,7 +53,20 @@ function skipLogin(req, res, next) {
   return next()
 }
 
+function requirePermision(permission) {
+  return function (req, res, next) {
+    if (verifyPermission(req.user, permission)) {
+      next()
+    } else {
+      res
+        .status(403)
+        .render('admin/forbidden', { layout: 'admin', page: 'forbidden' })
+    }
+  }
+}
+
 module.exports = {
   isAuthenticated,
   skipLogin,
+  requirePermision,
 }

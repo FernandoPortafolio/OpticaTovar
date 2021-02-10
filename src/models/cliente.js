@@ -27,6 +27,7 @@ class Cliente {
   }
 
   async createCliente(cliente, isManual, connection) {
+    let result = null
     const tipo = isManual ? 'Manual' : 'Paypal'
     const sql =
       'INSERT INTO cliente(id_cliente, email, nombre, apellido, calle, colonia, ciudad, cod_postal, tipo) VALUES (?,?,?,?,?,?,?,?,?)'
@@ -43,10 +44,10 @@ class Cliente {
     ]
     if (isManual) {
       const conn = await connect()
-      const result = await conn.query(sql, params)
+      result = await conn.query(sql, params)
       conn.end()
     } else {
-      const result = await connection.query(sql, params)
+      result = await connection.query(sql, params)
     }
 
     return result

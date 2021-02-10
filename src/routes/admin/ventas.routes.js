@@ -1,11 +1,15 @@
 const { Router } = require('express')
+const { requirePermision } = require('../../middlewares/passport-local-auth')
 const venta = require('../../models/venta')
 const cliente = require('../../models/cliente')
 const producto = require('../../models/product')
 
 const router = Router()
 
-router.get('/ventas', async (req, res) => {
+router.all('/ventas/agregar', requirePermision('Escribir ventas'))
+router.all('/ventas/editar', requirePermision('Escribir ventas'))
+
+router.get('/ventas', requirePermision('Leer ventas'), async (req, res) => {
   const ventas = await venta.fetchAll()
   res.render('admin/venta/table', { layout: 'admin', ventas })
 })
@@ -128,11 +132,15 @@ router.post('/ventas/editar', async function (req, res) {
   res.redirect('/admin/ventas')
 })
 
-router.get('/ventas/eliminar', async (req, res) => {
-  const id_venta = req.query.id_venta
-  await venta.deleteVenta(id_venta)
+router.get(
+  '/ventas/eliminar',
+  requirePermision('Eliminar ventas'),
+  async (req, res) => {
+    const id_venta = req.query.id_venta
+    await venta.deleteVenta(id_venta)
 
-  res.redirect('/admin/ventas')
-})
+    res.redirect('/admin/ventas')
+  }
+)
 
 module.exports = router

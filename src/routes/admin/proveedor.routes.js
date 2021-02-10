@@ -1,12 +1,20 @@
 const { Router } = require('express')
+const { requirePermision } = require('../../middlewares/passport-local-auth')
 const proveedor = require('../../models/proveedor')
 
 const router = Router()
 
-router.get('/proveedores', async (req, res) => {
-  const proveedores = await proveedor.fetchAll()
-  res.render('admin/proveedor/table', { layout: 'admin', proveedores })
-})
+router.all('/proveedores/agregar', requirePermision('Escribir proveedores'))
+router.all('/proveedores/editar', requirePermision('Escribir proveedores'))
+
+router.get(
+  '/proveedores',
+  requirePermision('Leer proveedores'),
+  async (req, res) => {
+    const proveedores = await proveedor.fetchAll()
+    res.render('admin/proveedor/table', { layout: 'admin', proveedores })
+  }
+)
 
 router.get('/proveedores/agregar', (req, res) => {
   res.render('admin/proveedor/form', {
@@ -39,10 +47,14 @@ router.post('/proveedores/editar', async (req, res) => {
   res.redirect('/admin/proveedores')
 })
 
-router.get('/proveedores/eliminar', (req, res) => {
-  const id_proveedor = req.query.id_proveedor
-  proveedor.deleteProveedor(id_proveedor)
-  res.redirect('/admin/proveedores')
-})
+router.get(
+  '/proveedores/eliminar',
+  requirePermision('Eliminar proveedores'),
+  (req, res) => {
+    const id_proveedor = req.query.id_proveedor
+    proveedor.deleteProveedor(id_proveedor)
+    res.redirect('/admin/proveedores')
+  }
+)
 
 module.exports = router

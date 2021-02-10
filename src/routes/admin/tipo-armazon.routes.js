@@ -1,6 +1,9 @@
 const { Router } = require('express')
+const { requirePermision } = require('../../middlewares/passport-local-auth')
 const tipo_armazon = require('../../models/tipo_armazon')
 const router = Router()
+
+router.all('/tipos_armazones', requirePermision('Catalogos'))
 
 router.get('/tipos_armazones', async (req, res) => {
   const tipos_armazones = await tipo_armazon.fetchAll()
