@@ -1,4 +1,6 @@
 const { connect } = require('../config/database')
+const { sendMail } = require('../helpers/mailer')
+const settings = require('../config/settings')
 const uniqid = require('uniqid')
 const fs = require('fs')
 const path = require('path')
@@ -81,6 +83,30 @@ class Usuario {
       await conn.query(sql, [insertId, 4])
 
       //enviar correo con las credenciales
+      const cid = uniqid()
+      const attachmentImage = {
+        filename: 'logo.png',
+        path: `public/assets/img/logo.png`,
+        cid,
+      }
+      const mensaje = `
+               <h1>Activación de Cuenta</h1>
+               <h2>Estimado ${usuario.nombre}</h2> 
+               <p>Se ha activado su cuenta para el sistema <strong>Optica Tovar</strong>. 
+               Presione la siguiente imagen para ir al panel de administración</p>
+               <div align='center'>
+                 <a href='http://${settings.HOST}:${settings.PORT}/admin/login'>
+                    <img src='cid:${cid}' height='100'>
+                    <p>Presione aqui</p>
+                 </a>
+               </div>
+               <p>Sus credenciales de acceso son:</p>
+               <p><b>Usuario:</b> ${usuario.correo} </p>
+               <p><b>Contraseña:</b> ${usuario.contrasena} </p>`
+
+      sendMail(usuario.correo, 'Se ha creado una cuenta para usted', mensaje, [
+        attachmentImage,
+      ])
 
       conn.commit()
     } catch (error) {

@@ -54,5 +54,5 @@ app.use(require('./routes/index.router'))
 
 //init server
 app.listen(settings.PORT, () =>
-  console.log('Server listen on port ' + settings.PORT)
+  console.log('Server listen on ' + `http://${settings.HOST}:${settings.PORT}`)
 )

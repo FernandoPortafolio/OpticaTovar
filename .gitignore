@@ -1,2 +1,5 @@
 node_modules
 tmp/*
+public/img/usuarios/*
+public/img/productos/*
+.env
