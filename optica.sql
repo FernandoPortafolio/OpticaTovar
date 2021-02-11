@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 08-02-2021 a las 14:09:45
+-- Tiempo de generación: 10-02-2021 a las 21:45:20
 -- Versión del servidor: 5.7.32-0ubuntu0.18.04.1
 -- Versión de PHP: 7.2.24-0ubuntu0.18.04.7
 
@@ -283,8 +283,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `correo`, `nombre`, `contrasena`, `foto`, `token`) VALUES
-(43, 'fernandotovar9902@gmail.com', 'Fernando Acosta', '202cb962ac59075b964b07152d234b70', '5fe151ff8d933.jpeg', NULL),
-(57, 'empleado@gmail.com', 'empleado', '202cb962ac59075b964b07152d234b70', 'w8d3bbskkkx08.jpeg', NULL);
+(71, 'fernandotovar9902@gmail.com', 'Fernando Tovar', '202cb962ac59075b964b07152d234b70', 'w8d3b8kbkkzs4.jpeg', NULL),
+(72, 'uriel12f_c921e@klepf.com', 'Uriel Kerklof', '202cb962ac59075b964b07152d234b70', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -302,8 +302,8 @@ CREATE TABLE `usuario_rol` (
 --
 
 INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`) VALUES
-(43, 3),
-(57, 4);
+(71, 3),
+(72, 4);
 
 -- --------------------------------------------------------
 
@@ -360,7 +360,7 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `compra_detalle`
   ADD PRIMARY KEY (`id_compra`,`id_producto`),
-  ADD KEY `fk_pruducto_compra` (`id_producto`);
+  ADD KEY `fk_producto_compra` (`id_producto`);
 
 --
 -- Indices de la tabla `forma`
@@ -488,7 +488,7 @@ ALTER TABLE `permiso`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
@@ -508,7 +508,7 @@ ALTER TABLE `tipo_armazon`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 --
 -- Restricciones para tablas volcadas
 --
@@ -523,8 +523,8 @@ ALTER TABLE `compra`
 -- Filtros para la tabla `compra_detalle`
 --
 ALTER TABLE `compra_detalle`
-  ADD CONSTRAINT `fk_comṕra_detalle` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id_compra`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_pruducto_compra` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_compra_detalle` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id_compra`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_producto_compra` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `inventario`
