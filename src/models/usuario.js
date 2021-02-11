@@ -184,6 +184,57 @@ class Usuario {
       console.log(error)
     }
   }
+
+  async sendRestoreEmail(user) {
+    try {
+      const token = uniqid().substring(0, 16)
+
+      const sql = 'UPDATE usuario set token = ? where correo = ?'
+      const conn = await connect()
+      await conn.query(sql, [token, user.correo])
+
+      const vinculo = `http://${settings.HOST}:${settings.PORT}/admin/login/reestablecer?token=${token}&correo=${user.correo}`
+      const mensaje = `
+    <h1>Recuperación de contraseña</h1>
+    <h2>Estimado ${user.nombre}</h2> 
+    <p>Se ha solicitado una recuperación de contraseña para su cuenta en Óptica Tovar</strong>. 
+    Presione el siguiente vínculo para reestablecer una nueva contraseña:</p>
+    <div align='center'>
+      <a href=${vinculo}>Reestablecer mi contraseña</a>
+    </div>
+    <p>Si usted no ha solicitado esta acción ignore este mensaje.</p>`
+
+      sendMail(user.correo, 'Recuperación de contraseña', mensaje)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async verifyToken(correo, token) {
+    let isValid = false
+    try {
+      const conn = await connect()
+      const sql = 'SELECT * from usuario where correo = ? and token = ?'
+      const result = await conn.query(sql, [correo, token])
+      isValid = result[0] !== undefined
+      conn.end()
+    } catch (error) {
+      console.error(error)
+    }
+    return isValid
+  }
+
+  async restorePassord(correo, newPassword) {
+    try {
+      const conn = await connect()
+      const sql =
+        'UPDATE usuario SET contrasena = ?, token = null WHERE correo = ?'
+      await conn.query(sql, [md5(newPassword), correo])
+      conn.end()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
 
 async function uploadImage(foto) {

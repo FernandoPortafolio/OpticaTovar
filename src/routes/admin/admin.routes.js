@@ -1,5 +1,7 @@
 const { Router } = require('express')
+const settings = require('../../config/settings')
 const passport = require('passport')
+const usuario = require('../../models/usuario')
 const {
   isAuthenticated,
   skipLogin,
@@ -11,11 +13,12 @@ const router = Router()
 //=======================================================
 // Login routes
 //=======================================================
+router.all('/login', skipLogin)
 router.get('/', (req, res) => {
   res.redirect('/admin/login')
 })
 
-router.get('/login', skipLogin, (req, res) => {
+router.get('/login', (req, res) => {
   const message = req.flash('message')[0]
   res.render('admin/login', { layout: 'empty', message })
 })
@@ -32,6 +35,48 @@ router.post(
 router.get('/logout', (req, res) => {
   req.logOut()
   res.redirect('login')
+})
+
+//=======================================================
+// Restore routes
+//=======================================================
+router.get('/login/recuperar', (req, res) => {
+  res.render('admin/recuperar', { layout: 'empty' })
+})
+
+router.post('/login/recuperar', async (req, res) => {
+  const correo = req.body.correo
+  const user = await usuario.findOneByEmail(correo)
+  if (user === undefined) {
+    return res
+      .status(404)
+      .send('El correo electrónico que proporcionaste no está registrado')
+  }
+
+  usuario.sendRestoreEmail(user)
+  res.send(
+    'Se ha enviado un correo de recuperación a tu cuenta. Puedes cerrar esta pestaña'
+  )
+})
+
+router.get('/login/reestablecer', async (req, res) => {
+  const { token, correo } = req.query
+  const isValid = await usuario.verifyToken(correo, token)
+  if (!isValid)
+    return res.send(
+      'El vínculo ya expiró. Solicita un nuevo proceso de recuperación'
+    )
+
+  res.render('admin/reestablecer', { layout: 'empty', token, correo })
+})
+
+router.post('/login/reestablecer', async (req, res) => {
+  const { correo, contrasena } = req.body
+  await usuario.restorePassord(correo, contrasena)
+  const vinculo = `http://${settings.HOST}:${settings.PORT}/admin/login`
+  res.send(
+    `<p>La contarseña ha sido cambiada. Presiona <a href='${vinculo}'>aqui</a> para iniciar sesión</p>`
+  )
 })
 
 //=======================================================
