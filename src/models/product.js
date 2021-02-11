@@ -93,6 +93,7 @@ class Product {
 
     let upload
     try {
+      const old = await this.findOneByID(product.id_producto)
       //insertar en la tabla de productos
       let sql =
         'UPDATE producto SET precio = ?,descripcion = ?,id_tipo_armazon = ?,id_marca = ?,id_categoria = ?,id_forma = ? WHERE id_producto = ?'
@@ -130,7 +131,6 @@ class Product {
       await conn.query(sql, params)
 
       if (upload.ok) {
-        const old = await this.findOneByID(product.id_producto)
         deleteImage(old.foto)
       }
 

@@ -122,6 +122,7 @@ class Usuario {
     conn.beginTransaction()
     let upload = null
     try {
+      const old = await this.findOneById(usuario.id_usuario)
       upload = await uploadImage(foto)
       let sql = ''
       let params = []
@@ -161,7 +162,6 @@ class Usuario {
       }
       await conn.query(sql, params)
       if (upload.ok) {
-        const old = await this.findOneById(usuario.id_usuario)
         deleteImage(old.foto)
       }
       conn.commit()
