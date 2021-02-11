@@ -95,7 +95,7 @@ class Usuario {
                <p>Se ha activado su cuenta para el sistema <strong>Optica Tovar</strong>. 
                Presione la siguiente imagen para ir al panel de administración</p>
                <div align='center'>
-                 <a href='http://${settings.HOST}:${settings.PORT}/admin/login'>
+                 <a href='http://${settings.HOST}/admin/login'>
                     <img src='cid:${cid}' height='100'>
                     <p>Presione aqui</p>
                  </a>
@@ -193,7 +193,7 @@ class Usuario {
       const conn = await connect()
       await conn.query(sql, [token, user.correo])
 
-      const vinculo = `http://${settings.HOST}:${settings.PORT}/admin/login/reestablecer?token=${token}&correo=${user.correo}`
+      const vinculo = `http://${settings.HOST}/admin/login/reestablecer?token=${token}&correo=${user.correo}`
       const mensaje = `
     <h1>Recuperación de contraseña</h1>
     <h2>Estimado ${user.nombre}</h2> 
