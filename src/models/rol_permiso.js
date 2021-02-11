@@ -4,7 +4,7 @@ class RolPermiso {
     const conn = await connect()
     const sql = 'INSERT into rol_permiso(id_rol, id_permiso) values (?,?)'
     const result = await conn.query(sql, [id_rol, id_permiso])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -15,7 +15,7 @@ class RolPermiso {
     JOIN permiso p on p.id_permiso = rp.id_permiso
     ORDER by rp.id_rol, rp.id_permiso`
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -23,7 +23,7 @@ class RolPermiso {
     const conn = await connect()
     const sql = 'DELETE from rol_permiso where id_permiso = ? and id_rol = ?'
     const result = await conn.query(sql, [id_permiso, id_rol])
-    conn.end()
+    //conn.end()
     return result
   }
 }

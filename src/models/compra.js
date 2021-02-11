@@ -7,7 +7,7 @@ class Compra {
                 FROM compra c
                 LEFT JOIN proveedor p USING(id_proveedor)`
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -15,7 +15,7 @@ class Compra {
     const conn = await connect()
     const sql = 'SELECT * from compra where id_compra = ?'
     const compra = await conn.query(sql, [id_compra])
-    conn.end()
+    //conn.end()
     return compra[0]
   }
 
@@ -56,7 +56,7 @@ class Compra {
       console.log(error)
       conn.rollback()
     }
-    conn.end()
+    //conn.end()
   }
 
   async modifyCompra(compra, productos) {
@@ -110,7 +110,7 @@ class Compra {
     } catch (error) {
       conn.rollback()
     }
-    conn.end()
+    //conn.end()
   }
 
   async deleteCompra(id_compra) {
@@ -138,7 +138,7 @@ class Compra {
       conn.rollback()
     }
 
-    conn.end()
+    //conn.end()
   }
 
   async findProductosCompra(id_compra) {
@@ -148,7 +148,7 @@ class Compra {
     JOIN producto p USING (id_producto)
     WHERE id_compra = ?`
     const result = await conn.query(sql, [id_compra])
-    conn.end()
+    //conn.end()
     return result
   }
 

@@ -1,8 +1,15 @@
 const { DB, NODE_ENV } = require('../config/settings')
 const mysql = require('promise-mysql')
+let connection = null
 
 async function connect() {
-  let connection = null
+  if (connection) return connection
+
+  await createPool()
+  return connection
+}
+
+async function createPool() {
   if (NODE_ENV === 'dev') {
     connection = await mysql.createConnection({
       host: DB.HOST,
@@ -15,7 +22,6 @@ async function connect() {
   } else {
     connection = await mysql.createConnection(process.env.CLEARDB_DATABASE_URL)
   }
-
-  return connection
 }
+
 module.exports = { connect }

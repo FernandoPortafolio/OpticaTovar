@@ -4,7 +4,7 @@ class UsuarioRol {
     const conn = await connect()
     const sql = 'INSERT into usuario_rol(id_usuario, id_rol) values (?,?)'
     const result = await conn.query(sql, [id_usuario, id_rol])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -15,7 +15,7 @@ class UsuarioRol {
     JOIN rol r on r.id_rol = ur.id_rol 
     order by ur.id_usuario, ur.id_rol`
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -23,7 +23,7 @@ class UsuarioRol {
     const conn = await connect()
     const sql = 'DELETE from usuario_rol where id_usuario = ? and id_rol = ?'
     const result = await conn.query(sql, [id_usuario, id_rol])
-    conn.end()
+    //conn.end()
     return result
   }
 }

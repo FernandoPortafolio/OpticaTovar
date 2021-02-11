@@ -8,7 +8,7 @@ class Venta {
     from venta v
     LEFT JOIN cliente c on c.id_cliente = v.id_cliente`
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -16,7 +16,7 @@ class Venta {
     const conn = await connect()
     const sql = 'SELECT * from venta where id_venta = ?'
     const result = await conn.query(sql, [id_venta])
-    conn.end()
+    //conn.end()
     return result[0]
   }
 
@@ -57,7 +57,7 @@ class Venta {
       console.log(error)
       conn.rollback()
     }
-    conn.end()
+    //conn.end()
   }
 
   async createVentaPaypal(venta, client, productos) {
@@ -105,7 +105,7 @@ class Venta {
       console.log(error)
       conn.rollback()
     }
-    conn.end()
+    //conn.end()
     return success
   }
 
@@ -155,7 +155,7 @@ class Venta {
       console.log(error)
       conn.rollback()
     }
-    conn.end()
+    //conn.end()
   }
 
   async deleteVenta(id_venta) {
@@ -182,7 +182,7 @@ class Venta {
       console.log(error)
       conn.rollback()
     }
-    conn.end()
+    //conn.end()
   }
 
   async getSaleProducts(id_venta) {
@@ -192,7 +192,7 @@ class Venta {
     JOIN producto p USING (id_producto)
     WHERE id_venta = ?`
     const result = await conn.query(sql, [id_venta])
-    conn.end()
+    //conn.end()
     return result
   }
 

@@ -4,7 +4,7 @@ class Proveedor {
     const sql = 'SELECT * from proveedor'
     const conn = await connect()
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -12,7 +12,7 @@ class Proveedor {
     const sql = 'SELECT * from proveedor where id_proveedor = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_proveedor])
-    conn.end()
+    //conn.end()
     return result[0]
   }
 
@@ -26,7 +26,7 @@ class Proveedor {
       proveedor.domicilio,
       proveedor.telefono,
     ])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -34,7 +34,7 @@ class Proveedor {
     const sql = 'DELETE from proveedor where id_proveedor = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_proveedor])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -49,7 +49,7 @@ class Proveedor {
       proveedor.telefono,
       proveedor.id_proveedor,
     ])
-    conn.end()
+    //conn.end()
     return result
   }
 }

@@ -5,7 +5,7 @@ class Category {
     const conn = await connect()
     const sql = `SELECT * from categoria`
     const categories = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return categories
   }
 
@@ -13,7 +13,7 @@ class Category {
     const conn = await connect()
     const sql = `SELECT * from categoria where id_categoria = ?`
     const categoria = await conn.query(sql, [id_categoria])
-    conn.end()
+    //conn.end()
     return categoria[0]
   }
 
@@ -21,7 +21,7 @@ class Category {
     const conn = await connect()
     const sql = `INSERT into categoria(categoria) values (?)`
     const result = await conn.query(sql, [categoria])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -29,7 +29,7 @@ class Category {
     const conn = await connect()
     const sql = `DELETE from categoria where id_categoria = ?`
     const result = await conn.query(sql, [id_categoria])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -40,7 +40,7 @@ class Category {
       categoria.categoria,
       categoria.id_categoria,
     ])
-    conn.end()
+    //conn.end()
     return result
   }
 }

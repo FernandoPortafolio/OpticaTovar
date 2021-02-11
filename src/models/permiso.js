@@ -4,7 +4,7 @@ class Permiso {
     const sql = 'INSERT into permiso(permiso) values (?)'
     const conn = await connect()
     const result = await conn.query(sql, [permiso])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -12,7 +12,7 @@ class Permiso {
     const sql = 'SELECT * from permiso'
     const conn = await connect()
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -20,7 +20,7 @@ class Permiso {
     const sql = 'SELECT * from permiso where id_permiso=?'
     const conn = await connect()
     const result = await conn.query(sql, [id_permiso])
-    conn.end()
+    //conn.end()
     return result[0]
   }
 
@@ -28,7 +28,7 @@ class Permiso {
     const sql = 'UPDATE permiso set permiso = ? where id_permiso = ?'
     const conn = await connect()
     const result = await conn.query(sql, [permiso.permiso, permiso.id_permiso])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -36,7 +36,7 @@ class Permiso {
     const sql = 'DELETE from permiso where id_permiso = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_permiso])
-    conn.end()
+    //conn.end()
     return result
   }
 }

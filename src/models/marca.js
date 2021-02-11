@@ -4,7 +4,7 @@ class Marca {
     const conn = await connect()
     const sql = `SELECT * from marca order by marca`
     const marcas = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return marcas
   }
 
@@ -12,7 +12,7 @@ class Marca {
     const conn = await connect()
     const sql = `SELECT * from marca where id_marca = ?`
     const marca = await conn.query(sql, [id_marca])
-    conn.end()
+    //conn.end()
     return marca[0]
   }
 
@@ -20,7 +20,7 @@ class Marca {
     const conn = await connect()
     const sql = `INSERT into marca(marca) values (?)`
     const result = await conn.query(sql, [marca])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -28,7 +28,7 @@ class Marca {
     const conn = await connect()
     const sql = `DELETE from marca where id_marca = ?`
     const result = await conn.query(sql, [id_marca])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -36,7 +36,7 @@ class Marca {
     const conn = await connect()
     const sql = `UPDATE marca set marca = ? where id_marca = ?`
     const result = await conn.query(sql, [marca.marca, marca.id_marca])
-    conn.end()
+    //conn.end()
     return result
   }
 }

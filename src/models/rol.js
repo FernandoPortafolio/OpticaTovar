@@ -4,7 +4,7 @@ class Rol {
     const sql = 'INSERT into rol(rol) values (?)'
     const conn = await connect()
     const result = await conn.query(sql, [rol])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -12,7 +12,7 @@ class Rol {
     const sql = 'SELECT * from rol'
     const conn = await connect()
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -20,7 +20,7 @@ class Rol {
     const sql = 'SELECT * from rol where id_rol=?'
     const conn = await connect()
     const result = await conn.query(sql, [id_rol])
-    conn.end()
+    //conn.end()
     return result[0]
   }
 
@@ -28,7 +28,7 @@ class Rol {
     const sql = 'UPDATE rol set rol = ? where id_rol = ?'
     const conn = await connect()
     const result = await conn.query(sql, [rol.rol, rol.id_rol])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -36,7 +36,7 @@ class Rol {
     const sql = 'DELETE from rol where id_rol = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_rol])
-    conn.end()
+    //conn.end()
     return result
   }
 }

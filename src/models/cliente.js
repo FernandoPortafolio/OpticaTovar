@@ -6,7 +6,7 @@ class Cliente {
     const sql = 'SELECT * from cliente'
     const conn = await connect()
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -14,7 +14,7 @@ class Cliente {
     const sql = 'SELECT * from cliente where id_cliente = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_cliente])
-    conn.end()
+    //conn.end()
     return result[0]
   }
 
@@ -22,7 +22,7 @@ class Cliente {
     const sql = 'DELETE from cliente  WHERE id_cliente = ?'
     const conn = await connect()
     const result = await conn.query(sql, [id_cliente])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -45,7 +45,7 @@ class Cliente {
     if (isManual) {
       const conn = await connect()
       result = await conn.query(sql, params)
-      conn.end()
+      //conn.end()
     } else {
       result = await connection.query(sql, params)
     }
@@ -67,7 +67,7 @@ class Cliente {
       cliente.cod_postal,
       cliente.id_cliente,
     ])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -76,7 +76,7 @@ class Cliente {
     const conn = await connect()
     const result = await conn.query(sql, [id_cliente])
     console.log(result)
-    conn.end()
+    //conn.end()
     return result
   }
 

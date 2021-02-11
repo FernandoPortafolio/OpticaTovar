@@ -5,7 +5,7 @@ class Forma {
     const conn = await connect()
     const sql = `SELECT * from forma`
     const categories = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return categories
   }
 
@@ -13,7 +13,7 @@ class Forma {
     const conn = await connect()
     const sql = `SELECT * from forma where id_forma = ?`
     const forma = await conn.query(sql, [id_forma])
-    conn.end()
+    //conn.end()
     return forma[0]
   }
 
@@ -21,7 +21,7 @@ class Forma {
     const conn = await connect()
     const sql = `INSERT into forma(forma) values (?)`
     const result = await conn.query(sql, [forma])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -29,7 +29,7 @@ class Forma {
     const conn = await connect()
     const sql = `DELETE from forma where id_forma = ?`
     const result = await conn.query(sql, [id_forma])
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -40,7 +40,7 @@ class Forma {
       forma.forma,
       forma.id_forma,
     ])
-    conn.end()
+    //conn.end()
     return result
   }
 }

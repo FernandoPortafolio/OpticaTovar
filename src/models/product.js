@@ -16,7 +16,7 @@ class Product {
     LEFT JOIN tipo_armazon ta on ta.id_tipo_armazon = p.id_tipo_armazon
     `
     const products = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return products
   }
 
@@ -36,7 +36,7 @@ class Product {
     WHERE p.id_producto = ?
     `
     const product = await conn.query(sql, [id_producto])
-    conn.end()
+    //conn.end()
     return product[0]
   }
 
@@ -84,7 +84,7 @@ class Product {
       deleteImage(upload.name)
     }
 
-    conn.end()
+    //conn.end()
   }
 
   async modifyProduct(product, foto) {
@@ -141,7 +141,7 @@ class Product {
       deleteImage(upload.name)
     }
 
-    conn.end()
+    //conn.end()
   }
 
   async deleteProduct(id_producto) {
@@ -166,7 +166,7 @@ class Product {
       `
     const conn = await connect()
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -174,7 +174,7 @@ class Product {
     const conn = await connect()
     const sql = `SELECT stock from inventario where id_producto = ?`
     let stock = await conn.query(sql, [id_producto])
-    conn.end()
+    //conn.end()
     return stock[0]?.stock
   }
 
@@ -213,7 +213,7 @@ class Product {
     //paginar la busqueda
     sql += ` LIMIT ${start}, ${pageSize}`
     const items = await conn.query(sql)
-    conn.end()
+    //conn.end()
 
     return {
       page: parseInt(page),
@@ -268,7 +268,7 @@ class Product {
       " and c.categoria not in ('Accesorios', 'Lentes de Seguridad') ORDER BY rand() LIMIT 4"
     const conn = await connect()
     const products = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return products
   }
 
@@ -282,7 +282,7 @@ class Product {
     GROUP BY month(fecha)
     ORDER BY month(fecha)`
     const sales = conn.query(sql)
-    conn.end()
+    //conn.end()
     return sales
   }
 
@@ -294,7 +294,7 @@ class Product {
     sql = `SELECT COUNT(*) as ventas from venta where tipo like 'Manual' and status like 'COMPLETED'`
     const storeSales = await conn.query(sql)
 
-    conn.end()
+    //conn.end()
     return {
       sales_store: paypalSales,
       sales_page: storeSales,

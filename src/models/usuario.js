@@ -45,7 +45,7 @@ class Usuario {
     user.roles = roles
     user.permisos = permisos
 
-    conn.end()
+    //conn.end()
 
     return user
   }
@@ -55,7 +55,7 @@ class Usuario {
       "SELECT id_usuario, correo, nombre, COALESCE(foto, 'no-foto.jpg') as foto FROM usuario"
     const conn = await connect()
     const result = await conn.query(sql)
-    conn.end()
+    //conn.end()
     return result
   }
 
@@ -114,7 +114,7 @@ class Usuario {
       conn.rollback()
       deleteImage(upload.name)
     }
-    conn.end()
+    //conn.end()
   }
 
   async modifyUsuario(usuario, foto) {
@@ -170,7 +170,7 @@ class Usuario {
       conn.rollback()
       deleteImage(upload.name)
     }
-    conn.end()
+    //conn.end()
   }
 
   async deleteUsuario(id_usuario) {
@@ -217,7 +217,7 @@ class Usuario {
       const sql = 'SELECT * from usuario where correo = ? and token = ?'
       const result = await conn.query(sql, [correo, token])
       isValid = result[0] !== undefined
-      conn.end()
+      //conn.end()
     } catch (error) {
       console.error(error)
     }
@@ -230,7 +230,7 @@ class Usuario {
       const sql =
         'UPDATE usuario SET contrasena = ?, token = null WHERE correo = ?'
       await conn.query(sql, [md5(newPassword), correo])
-      conn.end()
+      //conn.end()
     } catch (error) {
       console.error(error)
     }
