@@ -6,6 +6,13 @@ async function connect() {
   if (connection) return connection
 
   await createPool()
+  connection.on('error', (err) => {
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      console.log('Ha sucedido un error')
+      console.log(err)
+      createPool()
+    }
+  })
   return connection
 }
 
