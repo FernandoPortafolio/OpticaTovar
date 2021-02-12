@@ -3,9 +3,9 @@ const { sendMail } = require('../helpers/mailer')
 const settings = require('../config/settings')
 const uniqid = require('uniqid')
 const fs = require('fs')
-const path = require('path')
 const md5 = require('md5')
 const cloudinary = require('../config/cloudinary')
+const product = require('./product')
 
 class Usuario {
   async findOneByEmail(email) {
@@ -264,7 +264,7 @@ async function uploadImage(foto) {
 }
 
 async function deleteImage(foto) {
-  if (foto.public_id === undefined) return
+  if (foto.public_id === undefined || foto.public_id === null) return
   try {
     const result = await cloudinary.uploader.destroy(foto.public_id)
     console.log('Foto Eliminada de Cloudinary: ', foto.public_id)

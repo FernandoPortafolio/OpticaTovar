@@ -115,7 +115,7 @@
     {{#each cuadrada}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}
@@ -150,7 +150,7 @@
     {{#each rectangular}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}
@@ -184,7 +184,7 @@
     {{#each ovalada}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}
@@ -217,7 +217,7 @@
     {{#each redonda}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}
@@ -250,7 +250,7 @@
     {{#each triangular}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}
@@ -283,7 +283,7 @@
     {{#each diamante}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}
@@ -316,7 +316,7 @@
     {{#each corazon}}
       <div class="col-md-3 recomendacion">
         <p class="nombre">{{this.descripcion}}</p>
-        <img src="img/productos/{{this.foto}}" alt="Recomendacion">
+        <img src="{{getProductImageUrl this.foto}}" alt="Recomendacion">
         <a href="detalle-producto?id_producto={{this.id_producto}}" class="btn btn-primary">COMPRAR</a>
       </div>
     {{/each}}

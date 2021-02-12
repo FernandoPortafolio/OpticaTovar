@@ -25,15 +25,13 @@ class TiendaUI {
   async updateProducts() {
     let response = await fetch(this.getProductUrl())
     let data = await response.json()
-    console.log(data);
+    console.log(data)
     $('.productos').html('')
     data.items.forEach((producto) => {
       var html = `
           <div class="col-md-4 producto">
             <p class="marca">${producto.marca}</p>
-            <img src="img/productos/${
-              producto.foto
-            }" alt="Imagen del producto" height="170">
+            <img src="${producto.foto}" alt="Imagen del producto" height="170">
             <div class="contenido-producto">
               <p class="description">${producto.descripcion}</p>
               <div class="division"><span></span></div>

@@ -1,13 +1,12 @@
 const { connect } = require('../config/database')
-const uniqid = require('uniqid')
 const fs = require('fs')
-const path = require('path')
+const cloudinary = require('../config/cloudinary')
 
 class Product {
   async fetchAll() {
     const conn = await connect()
     const sql = `
-    SELECT p.*, pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  m.marca, c.categoria, f.forma, ta.tipo_armazon, COALESCE(pd.foto, 'no-foto.jpg') as foto  
+    SELECT p.*, pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  m.marca, c.categoria, f.forma, ta.tipo_armazon, pd.foto, pd.foto_public_id  
     from producto p
     LEFT JOIN producto_detalle pd on p.id_producto = pd.id_producto
     LEFT JOIN marca m on m.id_marca = p.id_marca
@@ -25,7 +24,7 @@ class Product {
     const sql = `
     SELECT p.*, 
     pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  
-    m.marca, c.categoria, f.forma, ta.tipo_armazon, i.stock, COALESCE(pd.foto, 'no-foto.jpg') as foto  
+    m.marca, c.categoria, f.forma, ta.tipo_armazon, i.stock, pd.foto, pd.foto_public_id  
     from producto p
     LEFT JOIN producto_detalle pd on p.id_producto = pd.id_producto
     LEFT JOIN marca m on m.id_marca = p.id_marca
@@ -61,7 +60,7 @@ class Product {
       //insertar en la tabla de detalle de producto
       upload = await uploadImage(foto)
       sql =
-        'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku, foto) VALUES (?,?,?,?,?,?,?,?)'
+        'INSERT INTO producto_detalle(id_producto, color, talla, longitud_varilla, ancho_puente, ancho_total, sku, foto, foto_public_id) VALUES (?,?,?,?,?,?,?,?,?)'
       await conn.query(sql, [
         insertId,
         product.color,
@@ -70,7 +69,8 @@ class Product {
         product.ancho_puente,
         product.ancho_total,
         product.sku,
-        upload.name,
+        upload.url,
+        upload.public_id,
       ])
 
       //insertar en inventario 0 unidades
@@ -81,7 +81,7 @@ class Product {
     } catch (error) {
       conn.rollback()
       console.log(error)
-      deleteImage(upload.name)
+      deleteImage(foto)
     }
 
     //conn.end()
@@ -121,8 +121,8 @@ class Product {
       ]
       if (upload.ok) {
         sql =
-          'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=?, foto = ? WHERE id_producto = ?'
-        params.splice(6, 0, upload.name)
+          'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=?, foto = ?, foto_public_id = ? WHERE id_producto = ?'
+        params.splice(6, 0, upload.url, upload.public_id)
       } else {
         sql =
           'UPDATE producto_detalle SET color=?, talla=?, longitud_varilla=?, ancho_puente=?, ancho_total=?, sku=? WHERE id_producto = ?'
@@ -131,14 +131,14 @@ class Product {
       await conn.query(sql, params)
 
       if (upload.ok) {
-        deleteImage(old.foto)
+        deleteImage({ public_id: old.foto_public_id })
       }
 
       conn.commit()
     } catch (error) {
       conn.rollback()
       console.log(error)
-      deleteImage(upload.name)
+      deleteImage(foto)
     }
 
     //conn.end()
@@ -150,7 +150,7 @@ class Product {
       const sql = 'DELETE from producto where id_producto = ?'
       const conn = await connect()
       await conn.query(sql, [id_producto])
-      deleteImage(old.foto)
+      deleteImage({ public_id: old.foto_public_id })
     } catch (error) {
       console.log(error)
     }
@@ -194,7 +194,7 @@ class Product {
       p_filter && p_filter != 0 ? ` where p.id_categoria = ${p_filter} ` : ''
 
     let sql = `
-    SELECT p.*, pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  m.marca, c.categoria, f.forma, ta.tipo_armazon, COALESCE(pd.foto, 'no-foto.jpg') as foto  
+    SELECT p.*, pd.color, pd.talla, pd.longitud_varilla, pd.ancho_puente, pd.ancho_total, pd.sku,  m.marca, c.categoria, f.forma, ta.tipo_armazon, COALESCE(pd.foto, 'https://res.cloudinary.com/dnurqqdri/image/upload/v1613102591/optica/productos/no-foto_mmzejz.jpg') as foto  
     from producto p
     LEFT JOIN producto_detalle pd on p.id_producto = pd.id_producto
     LEFT JOIN marca m on m.id_marca = p.id_marca
@@ -324,29 +324,33 @@ function mapOrderBy(orderBy) {
 async function uploadImage(foto) {
   if (!foto) return { ok: false }
 
-  const validTypes = ['jpg', 'jpeg', 'png', 'gif']
-  const type = foto.mimetype.split('/')[1]
-  const newName = `${uniqid().substring(0, 13)}.${type}`
-  console.log('New name: ' + newName)
-  if (validTypes.includes(type)) {
-    try {
-      await foto.mv(`public/img/productos/${newName}`)
-      return { ok: true, name: newName }
-    } catch (error) {
-      console.log(error)
+  try {
+    const result = await cloudinary.uploader.upload(foto.path, {
+      folder: 'optica/productos',
+    })
+    console.log('Imagen Subida a Cloudinary')
+    console.log(result)
+    fs.unlinkSync(foto.path)
+    return {
+      ok: true,
+      url: result.url,
+      public_id: result.public_id,
     }
+  } catch (error) {
+    console.error(error)
   }
 
   return { ok: false }
 }
 
-function deleteImage(imageName) {
-  let imagePath = path.resolve(`public/img/productos/${imageName}`)
-  if (fs.existsSync(imagePath) && imageName !== 'no-foto.jpg') {
-    fs.unlinkSync(imagePath)
-    console.log('Image deleted')
-  } else {
-    console.log('la imagen no existe en: ', imagePath)
+async function deleteImage(foto) {
+  if (foto.public_id === undefined || foto.public_id === null) return
+  try {
+    const result = await cloudinary.uploader.destroy(foto.public_id)
+    console.log('Foto Eliminada de Cloudinary: ', foto.public_id)
+    console.log(result)
+  } catch (error) {
+    console.error(error)
   }
 }
 

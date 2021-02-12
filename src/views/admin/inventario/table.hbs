@@ -21,7 +21,7 @@
 
             {{#each inventario}}
             <tr>
-              <td class="p-0 text-center w-25"><img src="../../img/productos/{{this.foto}}" alt="Imagen del producto" height="75"></td>
+              <td class="p-0 text-center w-25"><img src="{{getProductImageUrl this.foto}}" alt="Imagen del producto" height="75"></td>
               <td>
                 {{this.descripcion}}
               </td>
