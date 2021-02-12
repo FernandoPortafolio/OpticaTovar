@@ -82,7 +82,7 @@ router.post('/login/reestablecer', async (req, res) => {
 //=======================================================
 // Navigation routes
 //=======================================================
-// router.use(isAuthenticated)
+router.use(isAuthenticated)
 router.get('/dashboard', requirePermision('Dashboard'), (req, res) => {
   res.render('admin/dashboard', { layout: 'admin', page: 'dashboard' })
 })

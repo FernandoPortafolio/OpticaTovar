@@ -36,6 +36,10 @@
           </div>
           <small id="password_help" class="form-text text-red mt-0 mb-3"></small>
 
+          {{#if usuario}}
+            <img src="{{getUserImageUrl usuario.foto}}" alt="Imagen del producto" height="200">
+          {{/if}}
+
           <div class="form-group">
             <label for="foto">Fotografia</label>
             <input type="file" class="form-control" id="foto" name="foto">
