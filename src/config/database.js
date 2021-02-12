@@ -27,7 +27,7 @@ async function createPool() {
       connectionLimit: 10,
     })
   } else {
-    connection = await mysql.createConnection(process.env.CLEARDB_DATABASE_URL)
+    connection = await mysql.createConnection(DB.DB_URL)
   }
 }
 

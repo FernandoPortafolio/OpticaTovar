@@ -73,7 +73,7 @@ router.get('/login/reestablecer', async (req, res) => {
 router.post('/login/reestablecer', async (req, res) => {
   const { correo, contrasena } = req.body
   await usuario.restorePassord(correo, contrasena)
-  const vinculo = `http://${settings.HOST}:${settings.PORT}/admin/login`
+  const vinculo = `http://${settings.DOMAIN}/admin/login`
   res.send(
     `<p>La contarseña ha sido cambiada. Presiona <a href='${vinculo}'>aqui</a> para iniciar sesión</p>`
   )
@@ -82,7 +82,7 @@ router.post('/login/reestablecer', async (req, res) => {
 //=======================================================
 // Navigation routes
 //=======================================================
-router.use(isAuthenticated)
+// router.use(isAuthenticated)
 router.get('/dashboard', requirePermision('Dashboard'), (req, res) => {
   res.render('admin/dashboard', { layout: 'admin', page: 'dashboard' })
 })

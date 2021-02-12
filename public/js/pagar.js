@@ -156,6 +156,8 @@ function createOrder(items, info) {
     order.items.push(purchaseItem)
   })
 
+  console.log(order)
+
   return order
 }
 

@@ -21,7 +21,7 @@ router.get('/usuarios/agregar', (req, res) => {
 
 router.post('/usuarios/agregar', async (req, res) => {
   const body = req.body
-  const foto = req.files?.foto
+  const foto = req.file
   await usuario.createUsuario(body, foto)
   res.redirect('/admin/usuarios/')
 })
@@ -29,7 +29,6 @@ router.post('/usuarios/agregar', async (req, res) => {
 router.get('/usuarios/editar', async (req, res) => {
   const id_usuario = req.query.id_usuario
   const _usuario = await usuario.findOneById(id_usuario)
-  console.log(_usuario)
   res.render('admin/rbac/usuario/form', {
     layout: 'admin',
     title: 'Agregar usuario',
@@ -41,7 +40,7 @@ router.get('/usuarios/editar', async (req, res) => {
 
 router.post('/usuarios/editar', async (req, res) => {
   const body = req.body
-  const foto = req.files?.foto
+  const foto = req.file
   await usuario.modifyUsuario(body, foto)
   res.redirect('/admin/usuarios/')
 })

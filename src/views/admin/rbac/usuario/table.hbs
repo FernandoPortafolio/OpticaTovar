@@ -23,7 +23,7 @@
           <tbody>
             {{#each usuarios}}
               <tr>
-                <td class="p-0 text-center"><img src="/img/usuarios/{{this.foto}}" alt="Imagen de perfil" height="100" class="rounded-circle"></td>
+                <td class="p-0 text-center"><img src="{{getUserImageUrl this.foto}}" alt="Imagen de perfil" height="100" class="rounded-circle"></td>
                 <td>
                   {{this.correo}}
                 </td>

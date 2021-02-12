@@ -5,11 +5,12 @@ const uniqid = require('uniqid')
 const fs = require('fs')
 const path = require('path')
 const md5 = require('md5')
+const cloudinary = require('../config/cloudinary')
 
 class Usuario {
   async findOneByEmail(email) {
     const sql = `
-    SELECT id_usuario, correo, contrasena, nombre, COALESCE(foto, 'no-foto.jpg') as foto from usuario where correo = ? 
+    SELECT id_usuario, correo, contrasena, nombre, foto, foto_public_id from usuario where correo = ? 
     `
     const conn = await connect()
     const user = await conn.query(sql, [email])
@@ -19,7 +20,7 @@ class Usuario {
   async findOneById(id_usuario) {
     const conn = await connect()
     let sql = `
-    SELECT id_usuario, correo, nombre, COALESCE(foto, 'no-foto.jpg') as foto from usuario where id_usuario = ? 
+    SELECT id_usuario, correo, nombre, foto, foto_public_id from usuario where id_usuario = ? 
     `
     let user = await conn.query(sql, [id_usuario])
     user = user[0]
@@ -52,7 +53,7 @@ class Usuario {
 
   async fetchAll() {
     const sql =
-      "SELECT id_usuario, correo, nombre, COALESCE(foto, 'no-foto.jpg') as foto FROM usuario"
+      'SELECT id_usuario, correo, nombre, foto, foto_public_id FROM usuario'
     const conn = await connect()
     const result = await conn.query(sql)
     //conn.end()
@@ -69,12 +70,13 @@ class Usuario {
 
       //insertar al usuario
       let sql =
-        'INSERT into usuario(correo, nombre, contrasena, foto) values (?,?,?,?)'
+        'INSERT into usuario(correo, nombre, contrasena, foto, foto_public_id) values (?,?,?,?,?)'
       const result = await conn.query(sql, [
         usuario.correo,
         usuario.nombre,
         md5(usuario.contrasena),
-        upload.name,
+        upload.url,
+        upload.public_id,
       ])
       const insertId = result.insertId
 
@@ -95,7 +97,7 @@ class Usuario {
                <p>Se ha activado su cuenta para el sistema <strong>Optica Tovar</strong>. 
                Presione la siguiente imagen para ir al panel de administración</p>
                <div align='center'>
-                 <a href='http://${settings.HOST}/admin/login'>
+                 <a href='http://${settings.DOMAIN}/admin/login'>
                     <img src='cid:${cid}' height='100'>
                     <p>Presione aqui</p>
                  </a>
@@ -104,15 +106,15 @@ class Usuario {
                <p><b>Usuario:</b> ${usuario.correo} </p>
                <p><b>Contraseña:</b> ${usuario.contrasena} </p>`
 
-      sendMail(usuario.correo, 'Se ha creado una cuenta para usted', mensaje, [
-        attachmentImage,
-      ])
+      // sendMail(usuario.correo, 'Se ha creado una cuenta para usted', mensaje, [
+      //   attachmentImage,
+      // ])
 
       conn.commit()
     } catch (error) {
       console.error(error)
       conn.rollback()
-      deleteImage(upload.name)
+      deleteImage(foto)
     }
     //conn.end()
   }
@@ -129,12 +131,13 @@ class Usuario {
       if (usuario.contrasena) {
         if (upload.ok) {
           sql =
-            'UPDATE usuario set correo = ?, contrasena = ?, nombre = ?, foto = ? where id_usuario = ?'
+            'UPDATE usuario set correo = ?, contrasena = ?, nombre = ?, foto = ?, foto_public_id = ? where id_usuario = ?'
           params = [
             usuario.correo,
             md5(usuario.contrasena),
             usuario.nombre,
-            upload.name,
+            upload.url,
+            upload.public_id,
             usuario.id_usuario,
           ]
         } else {
@@ -149,11 +152,12 @@ class Usuario {
         }
       } else if (upload.ok) {
         sql =
-          'UPDATE usuario set correo = ?, nombre = ?, foto = ?  where id_usuario = ?'
+          'UPDATE usuario set correo = ?, nombre = ?, foto = ?, foto_public_id = ? where id_usuario = ?'
         params = [
           usuario.correo,
           usuario.nombre,
-          upload.name,
+          upload.url,
+          upload.public_id,
           usuario.id_usuario,
         ]
       } else {
@@ -162,13 +166,13 @@ class Usuario {
       }
       await conn.query(sql, params)
       if (upload.ok) {
-        deleteImage(old.foto)
+        deleteImage({ public_id: old.foto_public_id })
       }
       conn.commit()
     } catch (error) {
       console.error(error)
       conn.rollback()
-      deleteImage(upload.name)
+      deleteImage(foto)
     }
     //conn.end()
   }
@@ -179,7 +183,7 @@ class Usuario {
       const sql = 'DELETE from usuario where id_usuario = ?'
       const conn = await connect()
       await conn.query(sql, [id_usuario])
-      deleteImage(old.foto)
+      deleteImage({ public_id: old.foto_public_id })
     } catch (error) {
       console.log(error)
     }
@@ -193,7 +197,7 @@ class Usuario {
       const conn = await connect()
       await conn.query(sql, [token, user.correo])
 
-      const vinculo = `http://${settings.HOST}/admin/login/reestablecer?token=${token}&correo=${user.correo}`
+      const vinculo = `http://${settings.DOMAIN}/admin/login/reestablecer?token=${token}&correo=${user.correo}`
       const mensaje = `
     <h1>Recuperación de contraseña</h1>
     <h2>Estimado ${user.nombre}</h2> 
@@ -240,29 +244,33 @@ class Usuario {
 async function uploadImage(foto) {
   if (!foto) return { ok: false }
 
-  const validTypes = ['jpg', 'jpeg', 'png', 'gif']
-  const type = foto.mimetype.split('/')[1]
-  const newName = `${uniqid().substring(0, 13)}.${type}`
-  console.log('New name: ' + newName)
-  if (validTypes.includes(type)) {
-    try {
-      await foto.mv(`public/img/usuarios/${newName}`)
-      return { ok: true, name: newName }
-    } catch (error) {
-      console.log(error)
+  try {
+    const result = await cloudinary.uploader.upload(foto.path, {
+      folder: 'optica/usuarios',
+    })
+    console.log('Imagen Subida a Cloudinary')
+    console.log(result)
+    fs.unlinkSync(foto.path)
+    return {
+      ok: true,
+      url: result.url,
+      public_id: result.public_id,
     }
+  } catch (error) {
+    console.error(error)
   }
 
   return { ok: false }
 }
 
-function deleteImage(imageName) {
-  let imagePath = path.resolve(`public/img/usuarios/${imageName}`)
-  if (fs.existsSync(imagePath) && imageName !== 'no-foto.jpg') {
-    fs.unlinkSync(imagePath)
-    console.log('Image deleted, was: ', imageName)
-  } else {
-    console.log('la imagen no existe en: ', imagePath)
+async function deleteImage(foto) {
+  if (foto.public_id === undefined) return
+  try {
+    const result = await cloudinary.uploader.destroy(foto.public_id)
+    console.log('Foto Eliminada de Cloudinary: ', foto.public_id)
+    console.log(result)
+  } catch (error) {
+    console.error(error)
   }
 }
 
